@@ -7,23 +7,31 @@ public class Referee : NetworkBehaviour
 {
     public static Referee referee;
     public GameObject iceHockeyBall;
+    private Vector3 startPos;
 
-    [SyncVar]
     private int hostScore, clientScore;
-    [SyncVar]
-    private int minute, second;
+    [SerializeField]
+    private int minute, second, countFromThree;
+    [SerializeField]
+    private int playerReady;
+
     // Start is called before the first frame update
     void Start()
     {
         referee = gameObject.GetComponent<Referee>();
+        InitializeValues();
+        SpawnHockeyBall();
+    }
+
+    private void InitializeValues()
+    {
+        playerReady = 0;
+        minute = 5;
+        second = 0;
+        countFromThree = 3;
         hostScore = clientScore = 0;
-        
-        if (this.isServer)
-        {
-            minute = 5;
-            second = 0;
-            StartCoroutine(CountDown());
-        }
+        startPos = new Vector3(0, 0.149f, 0);
+        Debug.Log("Initialize successfully");
     }
 
     /// <summary>
@@ -31,25 +39,25 @@ public class Referee : NetworkBehaviour
     /// </summary>
     private void SpawnHockeyBall()
     {
-        iceHockeyBall.SetActive(true);
+        GameObject ball = Instantiate(iceHockeyBall, startPos, Quaternion.identity);
+        NetworkServer.Spawn(ball);
     }
 
     /// <summary>
     /// Caculate the score and display to UI
     /// </summary>
     /// <param name="isHost"></param>
-    [ClientRpc]
-    public void RpcAddScore(bool isHost)
+    public void AddScore(bool isHost)
     {
         if (isHost)
         {
             hostScore++;
-            GameUI.gameUI.SetScoreToUI(hostScore, isHost);
+            PlayerController.player.RpcUpdateToUI(hostScore, isHost);
         }
         else
         {
             clientScore++;
-            GameUI.gameUI.SetScoreToUI(clientScore, isHost);
+            PlayerController.player.RpcUpdateToUI(clientScore, isHost);
         }
     }
 
@@ -59,7 +67,17 @@ public class Referee : NetworkBehaviour
     /// <returns></returns>
     IEnumerator CountDown()
     {
-        while (minute >= 0)
+        Debug.Log("Ready to play");
+        PlayerController.player.RpcHideAfterWaiting();
+        while (countFromThree >= 0)
+        {
+            UpdateToInstances("start countdown");
+            countFromThree--;
+            yield return new WaitForSeconds(1);
+        }
+        UpdateToInstances("hide countdown");
+        UpdateToInstances("set active");
+        while (true)
         {
             yield return new WaitForSeconds(1);
             second--;
@@ -68,17 +86,50 @@ public class Referee : NetworkBehaviour
                 second = 59;
                 minute--;
             }
-            if (minute == 0 && second == 0) break;
-            RcpUpdateToInstances();
+            if (minute == 0 && second == 0)
+            {
+                break;
+            }
+            UpdateToInstances("play time");
         }
     }
 
     /// <summary>
-    /// Call DisplayPlayTime function in GameUI class to display time
+    /// Update playtime to all instances
     /// </summary>
-    [ClientRpc]
-    private void RcpUpdateToInstances()
+    private void UpdateToInstances(string opt)
     {
-        GameUI.gameUI.DisplayPlayTime(minute, second);
+        switch (opt)
+        {
+            case "play time":
+                PlayerController.player.RpcDisplayPlayTime(minute, second);
+                break;
+            case "start countdown":
+                PlayerController.player.RpcDisplayCountDown(countFromThree, true);
+                break;
+            case "hide countdown":
+                PlayerController.player.RpcDisplayCountDown(countFromThree, false);
+                break;
+            case "set active":
+                PlayerController.player.RpcSetActive(true);
+                break;
+            default:
+                break;
+        }
+    }
+
+    public void SetReady()
+    {
+        playerReady++;
+        if(playerReady == 1)
+        {
+            StartGame();
+        }
+    }
+
+    [Server]
+    public void StartGame()
+    {
+        StartCoroutine(CountDown());
     }
 }

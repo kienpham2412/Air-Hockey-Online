@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class SettingManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class SettingManager : MonoBehaviour
     private AudioSource playerInteraction;
     public AudioClip uiSFX;
     public AudioClip gameSFX;
+    private Scene currentScene;
 
     // Start is called before the first frame update
     void Start()
@@ -16,7 +18,11 @@ public class SettingManager : MonoBehaviour
         settingManager = gameObject.GetComponent<SettingManager>();
         backgroundMusic = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         playerInteraction = gameObject.GetComponent<AudioSource>();
-        LoadSettingData();
+        currentScene = SceneManager.GetActiveScene();
+        if(currentScene.name == "TitleScreen")
+        {
+            LoadSettingData();
+        }
     }
 
     /// <summary>
@@ -77,11 +83,11 @@ public class SettingManager : MonoBehaviour
         float savedMouseSensitive = PlayerPrefs.GetFloat("MouseSensitive");
         float savedBackgroundMusic = PlayerPrefs.GetFloat("BackgroundMusicVolume");
         float savedSFX = PlayerPrefs.GetFloat("SFXVolume");
-        Debug.Log(savedMouseSensitive + " " + savedBackgroundMusic + " " + savedSFX);
+        Debug.Log("Mouse: " + savedMouseSensitive + "\nMusic: " + savedBackgroundMusic + "\nSFX: " + savedSFX);
 
         backgroundMusic.volume = savedBackgroundMusic;
         playerInteraction.volume = savedSFX;
-        GameUI.gameUI.SetUISliderValue(savedMouseSensitive, savedBackgroundMusic, savedSFX);
+        //GameUI.gameUI.SetUISliderValue(savedMouseSensitive, savedBackgroundMusic, savedSFX);
     }
 
     /// <summary>

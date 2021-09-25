@@ -2,6 +2,7 @@ ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
     - CameraBehaviour
+    - ConsoleToGUI
     - GameManager
     - GameUI
     - IceHockeyBallBehaviour
@@ -102,25 +103,27 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 5036}
     - Class: 114
-      Script: {instanceID: 5594}
+      Script: {instanceID: 5178}
     - Class: 114
-      Script: {instanceID: 5750}
+      Script: {instanceID: 5596}
     - Class: 114
-      Script: {instanceID: 5790}
+      Script: {instanceID: 5752}
     - Class: 114
-      Script: {instanceID: 5794}
+      Script: {instanceID: 5792}
     - Class: 114
-      Script: {instanceID: 5914}
+      Script: {instanceID: 5796}
     - Class: 114
-      Script: {instanceID: 6086}
+      Script: {instanceID: 5916}
     - Class: 114
-      Script: {instanceID: 6796}
+      Script: {instanceID: 6088}
     - Class: 114
-      Script: {instanceID: 7020}
+      Script: {instanceID: 6798}
     - Class: 114
-      Script: {instanceID: 7328}
+      Script: {instanceID: 7022}
     - Class: 114
-      Script: {instanceID: 32704}
+      Script: {instanceID: 7330}
+    - Class: 114
+      Script: {instanceID: 7354}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -199,23 +202,25 @@ ScriptsOnlyBuild:
     - Class: 114
       Script: {instanceID: 5036}
     - Class: 114
-      Script: {instanceID: 5296}
+      Script: {instanceID: 5178}
     - Class: 114
-      Script: {instanceID: 5594}
+      Script: {instanceID: 5298}
     - Class: 114
-      Script: {instanceID: 5750}
+      Script: {instanceID: 5596}
     - Class: 114
-      Script: {instanceID: 6074}
+      Script: {instanceID: 5752}
     - Class: 114
-      Script: {instanceID: 6086}
+      Script: {instanceID: 6076}
     - Class: 114
-      Script: {instanceID: 6094}
+      Script: {instanceID: 6088}
     - Class: 114
-      Script: {instanceID: 6796}
+      Script: {instanceID: 6096}
     - Class: 114
-      Script: {instanceID: 6862}
+      Script: {instanceID: 6798}
     - Class: 114
-      Script: {instanceID: 7136}
+      Script: {instanceID: 6864}
+    - Class: 114
+      Script: {instanceID: 7138}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -463,7 +468,7 @@ ScriptsOnlyBuild:
     className: TestResultRendererCallback
   - hash:
       serializedVersion: 2
-      Hash: e1b8574339fd66be94dd625a89bedc10
+      Hash: 56532c7bc7add26432ef7cebf3593741
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -884,6 +889,12 @@ ScriptsOnlyBuild:
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: ConsoleToGUI
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnBecameInvisibleMessageListener
@@ -979,7 +990,7 @@ ScriptsOnlyBuild:
     className: NetworkLobbyManager
   - hash:
       serializedVersion: 2
-      Hash: 0dd554ac47ebf3878a5b50baf6d8bf4a
+      Hash: 52a8bf5c856fa9333d051e0129c70464
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Referee
@@ -1117,7 +1128,7 @@ ScriptsOnlyBuild:
     className: UnityOnScrollRectValueChangedMessageListener
   - hash:
       serializedVersion: 2
-      Hash: bc09f650cb83ef7313ad4b491b55079e
+      Hash: 975900ce0b2bef1d1ee69e5804c52f9f
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: GameUI
@@ -1213,6 +1224,12 @@ ScriptsOnlyBuild:
     className: UnityOnParticleCollisionMessageListener
   - hash:
       serializedVersion: 2
+      Hash: 0558fd8cb7e7d0d08ede1688a0940de6
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: MirrorConnection
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
@@ -1283,12 +1300,6 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: UnityOnSliderValueChangedMessageListener
-  - hash:
-      serializedVersion: 2
-      Hash: 0558fd8cb7e7d0d08ede1688a0940de6
-    assemblyName: Assembly-CSharp.dll
-    namespaceName: 
-    className: MirrorConnection
   platform: 19
   scenePathNames:
   - Assets/Scenes/TitleScreen.unity

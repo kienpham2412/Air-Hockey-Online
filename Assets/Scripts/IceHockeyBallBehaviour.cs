@@ -48,7 +48,7 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
     /// Add a force to this gameobject when it collides another gameobject
     /// </summary>
     /// <param name="gameObj">the another gameobject</param>
-    [ClientRpc]
+    [Server]
     private void RpcAddForce(GameObject gameObj)
     {
         currentPos = transform.position;
@@ -61,19 +61,19 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
     /// Add a score when the ball collide the goal
     /// </summary>
     /// <param name="isHost"> true if it's host's goal and false if it's client's goal </param>
+    [Server]
     private void Goal(bool isHost)
     {
         if (isHost)
         {
             Debug.Log("Add a score to host !!!");
-            transform.position = startPos;
         }
         else
         {
             Debug.Log("Add a score to client !!!");
-            transform.position = startPos;
         }
+        transform.position = startPos;
         force.velocity = new Vector3(0, 0, 0);
-        Referee.referee.RpcAddScore(isHost);
+        Referee.referee.AddScore(isHost);
     }
 }

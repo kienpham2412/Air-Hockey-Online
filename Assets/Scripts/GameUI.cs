@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using Mirror;
 
@@ -16,6 +17,9 @@ public class GameUI : MonoBehaviour
     public GameObject musicSettingMenu;
     public GameObject playGameMenu;
     public GameObject exitNotification;
+    public GameObject waitingNotification;
+    public GameObject readyButton;
+    public GameObject countDown;
     private Dropdown resolutionDropdown;
     private Slider mouseSensitiveSlider;
     private Slider musicVolumeSlider;
@@ -24,6 +28,8 @@ public class GameUI : MonoBehaviour
     public TMP_Text hostScore;
     public TMP_Text clientScore;
     public TMP_Text playTime;
+    public TMP_Text countDownText;
+    public Scene currentScene;
 
     private int menuID;
     private int[,] resolution = { { 1920, 1080 }, { 1280, 720 }, { 800, 600 } };
@@ -33,11 +39,15 @@ public class GameUI : MonoBehaviour
     {
         menuID = 1;
         gameUI = gameObject.GetComponent<GameUI>();
-        resolutionDropdown = videoSettingMenu.gameObject.transform.Find("ResolutionDropdown").GetComponent<Dropdown>();
-        mouseSensitiveSlider = controlSettingMenu.gameObject.transform.Find("Slider").GetComponent<Slider>();
-        musicVolumeSlider = musicSettingMenu.gameObject.transform.Find("MusicSlider").GetComponent<Slider>();
-        SFXVolumeSlider = musicSettingMenu.gameObject.transform.Find("SFXSlider").GetComponent<Slider>();
-        hostIP = playGameMenu.gameObject.transform.Find("HostIp").GetComponent<TMP_InputField>();
+        currentScene = SceneManager.GetActiveScene();
+        if(currentScene.name == "TitleScreen")
+        {
+            resolutionDropdown = videoSettingMenu.gameObject.transform.Find("ResolutionDropdown").GetComponent<Dropdown>();
+            mouseSensitiveSlider = controlSettingMenu.gameObject.transform.Find("Slider").GetComponent<Slider>();
+            musicVolumeSlider = musicSettingMenu.gameObject.transform.Find("MusicSlider").GetComponent<Slider>();
+            SFXVolumeSlider = musicSettingMenu.gameObject.transform.Find("SFXSlider").GetComponent<Slider>();
+            hostIP = playGameMenu.gameObject.transform.Find("HostIp").GetComponent<TMP_InputField>();
+        }
     }
 
     // Update is called once per frame
@@ -255,7 +265,8 @@ public class GameUI : MonoBehaviour
         if (isHost)
         {
             hostScore.text = score.ToString();
-        } else
+        }
+        else
         {
             clientScore.text = score.ToString();
         }
@@ -293,5 +304,41 @@ public class GameUI : MonoBehaviour
     public void ExitGame()
     {
         GameManager.gameManager.ReturnToTitleMenu();
+    }
+
+    /// <summary>
+    /// Display and hide waiting notification and ready button
+    /// </summary>
+    /// <param name="isWaiting">true if waiting notification is going to be shown and false if ready button is going to be shown</param>
+    /// <param name="isShown">true if the UI is going to be shown and false if it's going to be hided</param>
+    public void DisplayInWaiting(bool isWaiting, bool isShown)
+    {
+        if (isWaiting)
+        {
+            waitingNotification.SetActive(isShown);
+        }
+        else
+        {
+            readyButton.SetActive(isShown);
+        }
+    }
+
+    public void DisplayCountDown(int countDownNum, bool isActive)
+    {
+        countDown.SetActive(isActive);
+        if (countDownNum == 0)
+        {
+            countDownText.text = "Ready";
+        }
+        else
+        {
+            countDownText.text = countDownNum.ToString();
+        }
+    }
+
+    public void SetReady()
+    {
+        PlayerController.player.CmdSetReady();
+        readyButton.transform.Find("ReadyButton").GetComponent<Button>().interactable = false;
     }
 }

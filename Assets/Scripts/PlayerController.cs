@@ -5,6 +5,7 @@ using Mirror;
 
 public class PlayerController : NetworkBehaviour
 {
+    public static PlayerController player;
     private Vector3 verticalMovement;
     private Vector3 horizontalMovement;
 
@@ -16,23 +17,27 @@ public class PlayerController : NetworkBehaviour
     private float zLimitRange = 0.75f;
     private float middleBorder = 0f;
     private float upperZLimitRange, lowerZLimitRange;
-    private int isHost;
+    [SerializeField]
+    private bool active;
     // Start is called before the first frame update
     void Start()
     {
-        isHost = PlayerPrefs.GetInt("IsHost");
+        active = false;
+        player = gameObject.GetComponent<PlayerController>();
         speed = PlayerPrefs.GetFloat("MouseSensitive");
         verticalMovement = Vector3.forward * speed;
         horizontalMovement = Vector3.right * speed;
-        if (isHost == 1)
+        if (this.isServer)
         {
             upperZLimitRange = middleBorder;
             lowerZLimitRange = -zLimitRange;
+            GameUI.gameUI.DisplayInWaiting(true, true);
         }
         else
         {
             upperZLimitRange = zLimitRange;
             lowerZLimitRange = middleBorder;
+            GameUI.gameUI.DisplayInWaiting(false, true);
         }
     }
 
@@ -50,16 +55,10 @@ public class PlayerController : NetworkBehaviour
         xPos = transform.position.x;
         zPos = transform.position.z;
 
-        //if (this.isLocalPlayer)
-        //{
-        //    horizontalInput = Input.GetAxis("Mouse X");
-        //    verticalInput = Input.GetAxis("Mouse Y");
-        //    transform.Translate(verticalMovement * verticalInput * Time.deltaTime);
-        //    transform.Translate(horizontalMovement * horizontalInput * Time.deltaTime);
-        //}
-
-        if (this.isLocalPlayer)
+        if (this.isLocalPlayer && active)
         {
+            //horizontalInput = Input.GetAxis("Mouse X");
+            //verticalInput = Input.GetAxis("Mouse Y");
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
 
@@ -72,5 +71,42 @@ public class PlayerController : NetworkBehaviour
                 transform.Translate(verticalMovement * verticalInput * Time.deltaTime);
             }
         }
+    }
+
+    [Command]
+    public void CmdSetReady()
+    {
+        Referee.referee.SetReady();
+    }
+
+    [ClientRpc]
+    public void RpcUpdateToUI(int score, bool isHost)
+    {
+        GameUI.gameUI.SetScoreToUI(score, isHost);
+    }
+
+    [ClientRpc]
+    public void RpcHideAfterWaiting()
+    {
+        GameUI.gameUI.DisplayInWaiting(false, false);
+        GameUI.gameUI.DisplayInWaiting(true, false);
+    }
+
+    [ClientRpc]
+    public void RpcDisplayPlayTime(int minute, int second)
+    {
+        GameUI.gameUI.DisplayPlayTime(minute, second);
+    }
+
+    [ClientRpc]
+    public void RpcDisplayCountDown(int num, bool isActive)
+    {
+        GameUI.gameUI.DisplayCountDown(num, isActive);
+    }
+
+    [ClientRpc]
+    public void RpcSetActive(bool active)
+    {
+        this.active = active;
     }
 }

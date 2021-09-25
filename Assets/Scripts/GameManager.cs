@@ -14,12 +14,6 @@ public class GameManager : MonoBehaviour
         gameManager = gameObject.GetComponent<GameManager>();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
     /// <summary>
     /// Create a host instance using Mirror
     /// </summary>
@@ -46,6 +40,7 @@ public class GameManager : MonoBehaviour
     /// </summary>
     public void ReturnToTitleMenu()
     {
+        NetworkConnector.connector.CloseConnection();
         SceneManager.LoadSceneAsync("TitleScreen");
     }
 
