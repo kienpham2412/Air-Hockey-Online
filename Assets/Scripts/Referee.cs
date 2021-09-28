@@ -8,10 +8,11 @@ public class Referee : NetworkBehaviour
     public static Referee referee;
     public GameObject iceHockeyBall;
     private Vector3 startPos;
+    private Coroutine countdownCoroutine;
 
     private int hostScore, clientScore;
     [SerializeField]
-    private int minute, second, countFromThree;
+    private int defaulMinute, defaultSeconds, currentMinute, currentSeconds, countedMinute, countedSeconds, countFromThree;
     [SerializeField]
     private int playerReady;
 
@@ -23,12 +24,14 @@ public class Referee : NetworkBehaviour
         SpawnHockeyBall();
     }
 
+    /// <summary>
+    /// Initiate some values
+    /// </summary>
     private void InitializeValues()
     {
         playerReady = 0;
-        minute = 5;
-        second = 0;
-        countFromThree = 3;
+        defaulMinute = 0;
+        defaultSeconds = 10;
         hostScore = clientScore = 0;
         startPos = new Vector3(0, 0.149f, 0);
         Debug.Log("Initialize successfully");
@@ -59,39 +62,64 @@ public class Referee : NetworkBehaviour
             clientScore++;
             PlayerController.player.RpcUpdateToUI(clientScore, isHost);
         }
+        StopCounting();
+        StartCoroutine(GoalProcedure());
     }
 
     /// <summary>
     /// Calculate the time remain
     /// </summary>
     /// <returns></returns>
-    IEnumerator CountDown()
+    IEnumerator CountDown(int fromMinute, int fromSeconds)
     {
-        Debug.Log("Ready to play");
+        countedMinute = fromMinute;
+        countedSeconds = fromSeconds;
+        countFromThree = 3;
+        Debug.Log("Ready to play from: " + fromMinute + ":" + fromSeconds);
         PlayerController.player.RpcHideAfterWaiting();
+        PlayerController.player.RpcDisplayGoalText(false, "not thing");
+        PlayerController.player.RpcSetDefaultPos();
+        IceHockeyBallBehaviour.behav.RpcSetDefaultPos();
+
         while (countFromThree >= 0)
         {
             UpdateToInstances("start countdown");
             countFromThree--;
             yield return new WaitForSeconds(1);
         }
+
         UpdateToInstances("hide countdown");
         UpdateToInstances("set active");
+
         while (true)
         {
             yield return new WaitForSeconds(1);
-            second--;
-            if (second < 0)
+            countedSeconds--;
+            if (countedSeconds < 0)
             {
-                second = 59;
-                minute--;
+                countedSeconds = 59;
+                countedMinute--;
             }
-            if (minute == 0 && second == 0)
+            UpdateToInstances("play time");
+            if (countedMinute == 0 && countedSeconds == 0)
             {
                 break;
             }
-            UpdateToInstances("play time");
         }
+        TimeSUp();
+        Debug.Log("Time's up !!!");
+    }
+
+    /// <summary>
+    /// Called when a player get a score
+    /// </summary>
+    /// <returns></returns>
+    IEnumerator GoalProcedure()
+    {
+        PlayerController.player.RpcDisplayGoalText(true, "Goal !!!");
+        PlayerController.player.RpcSetActive(false);
+        yield return new WaitForSeconds(1.5f);
+        countdownCoroutine = StartCoroutine(CountDown(currentMinute, currentSeconds));
     }
 
     /// <summary>
@@ -102,7 +130,7 @@ public class Referee : NetworkBehaviour
         switch (opt)
         {
             case "play time":
-                PlayerController.player.RpcDisplayPlayTime(minute, second);
+                PlayerController.player.RpcDisplayPlayTime(countedMinute, countedSeconds);
                 break;
             case "start countdown":
                 PlayerController.player.RpcDisplayCountDown(countFromThree, true);
@@ -112,12 +140,16 @@ public class Referee : NetworkBehaviour
                 break;
             case "set active":
                 PlayerController.player.RpcSetActive(true);
+                IceHockeyBallBehaviour.behav.RpcSetActive(true);
                 break;
             default:
                 break;
         }
     }
 
+    /// <summary>
+    /// Change the game from waiting state to ready state
+    /// </summary>
     public void SetReady()
     {
         playerReady++;
@@ -127,9 +159,35 @@ public class Referee : NetworkBehaviour
         }
     }
 
+    /// <summary>
+    /// Stop the countdown coroutine and save current minute and seconds
+    /// </summary>
+    private void StopCounting()
+    {
+        currentMinute = countedMinute;
+        currentSeconds = countedSeconds;
+        StopCoroutine(countdownCoroutine);
+        countdownCoroutine = null;
+    }
+
+    /// <summary>
+    /// Start the game
+    /// </summary>
     [Server]
     public void StartGame()
     {
-        StartCoroutine(CountDown());
+        countdownCoroutine = StartCoroutine(CountDown(defaulMinute, defaultSeconds));
+    }
+
+    /// <summary>
+    /// Calculate the winner
+    /// </summary>
+    private void TimeSUp()
+    {
+        bool isHostWin = (hostScore - clientScore) > 0 ? true : false;
+        PlayerController.player.RpcDisplayGoalText(true, "Time's up");
+        PlayerController.player.RpcSetActive(false);
+        IceHockeyBallBehaviour.behav.RpcSetActive(false);
+        PlayerController.player.WinnerAnnoucement(true, isHostWin);
     }
 }

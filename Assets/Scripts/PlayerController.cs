@@ -8,8 +8,10 @@ public class PlayerController : NetworkBehaviour
     public static PlayerController player;
     private Vector3 verticalMovement;
     private Vector3 horizontalMovement;
+    private Vector3 playerStartPos;
+    private Rigidbody playerRigidBody;
 
-    [SerializeField] private float speed = 20;
+    [SerializeField] private float speed = 10;
     [SerializeField] private float horizontalInput;
     [SerializeField] private float verticalInput;
     private float xPos, zPos;
@@ -17,16 +19,21 @@ public class PlayerController : NetworkBehaviour
     private float zLimitRange = 0.75f;
     private float middleBorder = 0f;
     private float upperZLimitRange, lowerZLimitRange;
+    private int hostScore, clientScore, yourScore;
     [SerializeField]
-    private bool active;
+    private bool playerActive;
+
     // Start is called before the first frame update
     void Start()
     {
-        active = false;
         player = gameObject.GetComponent<PlayerController>();
-        speed = PlayerPrefs.GetFloat("MouseSensitive");
+        playerRigidBody = gameObject.GetComponent<Rigidbody>();
+
+        playerActive = false;
         verticalMovement = Vector3.forward * speed;
         horizontalMovement = Vector3.right * speed;
+        playerStartPos = gameObject.transform.position;
+
         if (this.isServer)
         {
             upperZLimitRange = middleBorder;
@@ -55,36 +62,47 @@ public class PlayerController : NetworkBehaviour
         xPos = transform.position.x;
         zPos = transform.position.z;
 
-        if (this.isLocalPlayer && active)
+        if (this.isLocalPlayer && playerActive)
         {
             //horizontalInput = Input.GetAxis("Mouse X");
             //verticalInput = Input.GetAxis("Mouse Y");
             horizontalInput = Input.GetAxis("Horizontal");
             verticalInput = Input.GetAxis("Vertical");
 
-            if(horizontalInput < 0 && xPos > -xLimitRange || horizontalInput > 0 && xPos < xLimitRange)
+            if (horizontalInput < 0 && xPos > -xLimitRange || horizontalInput > 0 && xPos < xLimitRange)
             {
                 transform.Translate(horizontalMovement * horizontalInput * Time.deltaTime);
             }
-            if(verticalInput < 0 && zPos > lowerZLimitRange || verticalInput > 0 && zPos < upperZLimitRange)
+            if (verticalInput < 0 && zPos > lowerZLimitRange || verticalInput > 0 && zPos < upperZLimitRange)
             {
                 transform.Translate(verticalMovement * verticalInput * Time.deltaTime);
             }
         }
     }
 
+    /// <summary>
+    /// Start the ready procedure
+    /// </summary>
     [Command]
     public void CmdSetReady()
     {
         Referee.referee.SetReady();
     }
 
+    /// <summary>
+    /// Update score to UI using GameUI's API
+    /// </summary>
+    /// <param name="score">The score value to be updated</param>
+    /// <param name="isHost">Is the score belong to host or client</param>
     [ClientRpc]
     public void RpcUpdateToUI(int score, bool isHost)
     {
         GameUI.gameUI.SetScoreToUI(score, isHost);
     }
 
+    /// <summary>
+    /// Hide the Waiting notification and ready button using GameUI's API
+    /// </summary>
     [ClientRpc]
     public void RpcHideAfterWaiting()
     {
@@ -92,21 +110,91 @@ public class PlayerController : NetworkBehaviour
         GameUI.gameUI.DisplayInWaiting(true, false);
     }
 
+    /// <summary>
+    /// Display the remaining time of a round using GameUI's API
+    /// </summary>
+    /// <param name="minute"></param>
+    /// <param name="second"></param>
     [ClientRpc]
     public void RpcDisplayPlayTime(int minute, int second)
     {
         GameUI.gameUI.DisplayPlayTime(minute, second);
     }
 
+    /// <summary>
+    /// Display the countdown at the beginning of a round using GameUI's API
+    /// </summary>
+    /// <param name="num"></param>
+    /// <param name="isActive"></param>
     [ClientRpc]
     public void RpcDisplayCountDown(int num, bool isActive)
     {
         GameUI.gameUI.DisplayCountDown(num, isActive);
     }
 
+    /// <summary>
+    /// Set controllability to the player
+    /// </summary>
+    /// <param name="isActive"></param>
     [ClientRpc]
-    public void RpcSetActive(bool active)
+    public void RpcSetActive(bool isActive)
     {
-        this.active = active;
+        playerActive = isActive;
+        if (this.isServer)
+        {
+            Debug.Log("Set host active: " + playerActive);
+        }
+    }
+
+    /// <summary>
+    /// Place the player at start postiton
+    /// </summary>
+    [ClientRpc]
+    public void RpcSetDefaultPos()
+    {
+        transform.position = playerStartPos;
+        playerRigidBody.velocity = new Vector3(0, 0, 0);
+    }
+
+    /// <summary>
+    /// Display the goal text using GameUI's API
+    /// </summary>
+    /// <param name="isDisplay"></param>
+    [ClientRpc]
+    public void RpcDisplayGoalText(bool isDisplay, string content)
+    {
+        GameUI.gameUI.DisplayGoalText(isDisplay, content);
+    }
+
+    /// <summary>
+    /// Announce who is the winner
+    /// </summary>
+    /// <param name="isDisplay">Hide or display this announcement</param>
+    /// <param name="isHostWin">Who is the winner ? (host or client)</param>
+    [ClientRpc]
+    public void WinnerAnnoucement(bool isDisplay, bool isHostWin)
+    {
+        if (this.isServer)
+        {
+            if (isHostWin)
+            {
+                GameUI.gameUI.DisplayGoalText(isDisplay, "You win");
+            }
+            else
+            {
+                GameUI.gameUI.DisplayGoalText(isDisplay, "You lose");
+            }
+        }
+        else
+        {
+            if (isHostWin)
+            {
+                GameUI.gameUI.DisplayGoalText(isDisplay, "You lose");
+            }
+            else
+            {
+                GameUI.gameUI.DisplayGoalText(isDisplay, "You win");
+            }
+        }
     }
 }

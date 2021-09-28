@@ -3,12 +3,19 @@ using UnityEngine;
 public class ConsoleToGUI : MonoBehaviour
 {
     string myLog = "*begin log";
-    string filename = "";
+    //string filename = "";
     bool doShow = false;
     int kChars = 700;
     void OnEnable() { Application.logMessageReceived += Log; }
     void OnDisable() { Application.logMessageReceived -= Log; }
     void Update() { if (Input.GetKeyDown(KeyCode.Tab)) { doShow = !doShow; } }
+
+    /// <summary>
+    /// Print debug log to ingame log screen
+    /// </summary>
+    /// <param name="logString"></param>
+    /// <param name="stackTrace"></param>
+    /// <param name="type"></param>
     public void Log(string logString, string stackTrace, LogType type)
     {
         // for onscreen...
@@ -16,16 +23,16 @@ public class ConsoleToGUI : MonoBehaviour
         if (myLog.Length > kChars) { myLog = myLog.Substring(myLog.Length - kChars); }
 
         // for the file ...
-        if (filename == "")
-        {
-            //string d = System.Environment.GetFolderPath(
-            //   System.Environment.SpecialFolder.Desktop) + "/YOUR_LOGS";
-            //System.IO.Directory.CreateDirectory(d);
-            //string r = Random.Range(1000, 9999).ToString();
-            //filename = d + "/log-" + r + ".txt";
-        }
-        try { System.IO.File.AppendAllText(filename, logString + "\n"); }
-        catch { }
+        //if (filename == "")
+        //{
+        //    //string d = System.Environment.GetFolderPath(
+        //    //   System.Environment.SpecialFolder.Desktop) + "/YOUR_LOGS";
+        //    //System.IO.Directory.CreateDirectory(d);
+        //    //string r = Random.Range(1000, 9999).ToString();
+        //    //filename = d + "/log-" + r + ".txt";
+        //}
+        //try { System.IO.File.AppendAllText(filename, logString + "\n"); }
+        //catch { }
     }
 
     void OnGUI()

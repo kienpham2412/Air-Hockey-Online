@@ -17,12 +17,9 @@ public class CameraBehaviour : MonoBehaviour
         RotateCamera();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Rotate the camera for client gameobject
+    /// </summary>
     private void RotateCamera()
     {
         isHost = PlayerPrefs.GetInt("IsHost");

@@ -20,7 +20,9 @@ public class GameUI : MonoBehaviour
     public GameObject waitingNotification;
     public GameObject readyButton;
     public GameObject countDown;
+    public GameObject goalText;
     private Dropdown resolutionDropdown;
+    private Toggle fullScreenToggle;
     private Slider mouseSensitiveSlider;
     private Slider musicVolumeSlider;
     private Slider SFXVolumeSlider;
@@ -40,13 +42,15 @@ public class GameUI : MonoBehaviour
         menuID = 1;
         gameUI = gameObject.GetComponent<GameUI>();
         currentScene = SceneManager.GetActiveScene();
-        if(currentScene.name == "TitleScreen")
+        if (currentScene.name == "TitleScreen")
         {
+            fullScreenToggle = videoSettingMenu.gameObject.transform.Find("FullScreenToggle").GetComponent<Toggle>();
             resolutionDropdown = videoSettingMenu.gameObject.transform.Find("ResolutionDropdown").GetComponent<Dropdown>();
             mouseSensitiveSlider = controlSettingMenu.gameObject.transform.Find("Slider").GetComponent<Slider>();
             musicVolumeSlider = musicSettingMenu.gameObject.transform.Find("MusicSlider").GetComponent<Slider>();
             SFXVolumeSlider = musicSettingMenu.gameObject.transform.Find("SFXSlider").GetComponent<Slider>();
             hostIP = playGameMenu.gameObject.transform.Find("HostIp").GetComponent<TMP_InputField>();
+            LoadSettingData();
         }
     }
 
@@ -164,6 +168,7 @@ public class GameUI : MonoBehaviour
                 settingMenu.SetActive(false);
                 playGameMenu.SetActive(false);
                 titleMenu.SetActive(true);
+                SettingManager.settingManager.SaveSettingData(true);
                 menuID--;
                 break;
             default:
@@ -187,7 +192,7 @@ public class GameUI : MonoBehaviour
     {
         int index = resolutionDropdown.value;
         Debug.Log("Change resolution to: " + index);
-        SettingManager.settingManager.ChangeResolution(resolution[index, 0], resolution[index, 1]);
+        SettingManager.settingManager.ChangeResolution(index, resolution[index, 0], resolution[index, 1]);
     }
 
     /// <summary>
@@ -220,9 +225,8 @@ public class GameUI : MonoBehaviour
     /// <param name="mouseSensitive"> player movement speed when use mouse control </param>
     /// <param name="backgroundMusic"> the volume of background music played in the game </param>
     /// <param name="sfx"> the volume of sound effect played in the game </param>
-    public void SetUISliderValue(float mouseSensitive, float backgroundMusic, float sfx)
+    public void SetUISliderValue(float backgroundMusic, float sfx)
     {
-        mouseSensitiveSlider.value = mouseSensitive;
         musicVolumeSlider.value = backgroundMusic;
         SFXVolumeSlider.value = sfx;
     }
@@ -279,7 +283,24 @@ public class GameUI : MonoBehaviour
     /// <param name="seconds"></param>
     public void DisplayPlayTime(int minute, int seconds)
     {
-        playTime.text = minute + ":" + seconds;
+        string minuteString, secondsString;
+        if (minute < 10)
+        {
+            minuteString = "0" + minute;
+        }
+        else
+        {
+            minuteString = minute.ToString();
+        }
+        if (seconds < 10)
+        {
+            secondsString = "0" + seconds;
+        }
+        else
+        {
+            secondsString = seconds.ToString();
+        }
+        playTime.text = minuteString + ":" + secondsString;
     }
 
     /// <summary>
@@ -323,6 +344,11 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Display the countdown UI
+    /// </summary>
+    /// <param name="countDownNum"></param>
+    /// <param name="isActive"></param>
     public void DisplayCountDown(int countDownNum, bool isActive)
     {
         countDown.SetActive(isActive);
@@ -336,9 +362,35 @@ public class GameUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Start the ready procedure from server
+    /// </summary>
     public void SetReady()
     {
         PlayerController.player.CmdSetReady();
         readyButton.transform.Find("ReadyButton").GetComponent<Button>().interactable = false;
+    }
+
+    /// <summary>
+    /// Display the goal text when a player get a socre
+    /// </summary>
+    /// <param name="isDisplay">Is the text being shown or hided</param>
+    public void DisplayGoalText(bool isDisplay, string content)
+    {
+        goalText.GetComponent<TextMeshProUGUI>().text = content;
+        goalText.SetActive(isDisplay);
+    }
+
+    /// <summary>
+    /// Load saved setting data to UI
+    /// </summary>
+    private void LoadSettingData()
+    {
+        SettingData setting = SettingManager.settingManager.GetSavedData();
+        fullScreenToggle.isOn = setting.fullScreen;
+        resolutionDropdown.value = setting.resolutionIndex;
+        musicVolumeSlider.value = setting.musicVolume;
+        SFXVolumeSlider.value = setting.SFXVolume;
+        Debug.Log("Update data to UI successfully");
     }
 }

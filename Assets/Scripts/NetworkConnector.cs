@@ -37,6 +37,9 @@ public class NetworkConnector : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Close the network connection
+    /// </summary>
     public void CloseConnection()
     {
         Debug.Log("Close connection");

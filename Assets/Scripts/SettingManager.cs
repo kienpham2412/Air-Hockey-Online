@@ -1,7 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+
+[Serializable]
+public class SettingData
+{
+    public bool fullScreen;
+    public int resolutionIndex;
+    public int windowWidth;
+    public int windowHeight;
+    public float musicVolume;
+    public float SFXVolume;
+}
 
 public class SettingManager : MonoBehaviour
 {
@@ -10,7 +24,9 @@ public class SettingManager : MonoBehaviour
     private AudioSource playerInteraction;
     public AudioClip uiSFX;
     public AudioClip gameSFX;
-    private Scene currentScene;
+
+    private string savedDataPath;
+    private int resolutionIndex, width, height;
 
     // Start is called before the first frame update
     void Start()
@@ -18,11 +34,9 @@ public class SettingManager : MonoBehaviour
         settingManager = gameObject.GetComponent<SettingManager>();
         backgroundMusic = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         playerInteraction = gameObject.GetComponent<AudioSource>();
-        currentScene = SceneManager.GetActiveScene();
-        if(currentScene.name == "TitleScreen")
-        {
-            LoadSettingData();
-        }
+        savedDataPath = Application.dataPath + "/Setting.dat";
+
+        LoadSettingData();
     }
 
     /// <summary>
@@ -38,8 +52,11 @@ public class SettingManager : MonoBehaviour
     /// </summary>
     /// <param name="width"> Window's width (pixel)</param>
     /// <param name="height"> Window's height (pixel)</param>
-    public void ChangeResolution(int width, int height)
+    public void ChangeResolution(int resolutionIndex, int width, int height)
     {
+        this.resolutionIndex = resolutionIndex;
+        this.width = width;
+        this.height = height;
         Screen.SetResolution(width, height, Screen.fullScreen);
     }
 
@@ -60,8 +77,6 @@ public class SettingManager : MonoBehaviour
     public void ChangeMusicVolume(float musicVolume)
     {
         backgroundMusic.volume = musicVolume;
-        PlayerPrefs.SetFloat("BackgroundMusicVolume", musicVolume);
-        Debug.Log("Saved music volume: " + musicVolume);
     }
 
     /// <summary>
@@ -71,23 +86,6 @@ public class SettingManager : MonoBehaviour
     public void ChangeSFXVolume(float SFXVolume)
     {
         playerInteraction.volume = SFXVolume;
-        PlayerPrefs.SetFloat("SFXVolume", SFXVolume);
-        Debug.Log("Saved sfx volume: " + SFXVolume);
-    }
-
-    /// <summary>
-    /// Get saved setting data and load to the game UI
-    /// </summary>
-    private void LoadSettingData() 
-    {
-        float savedMouseSensitive = PlayerPrefs.GetFloat("MouseSensitive");
-        float savedBackgroundMusic = PlayerPrefs.GetFloat("BackgroundMusicVolume");
-        float savedSFX = PlayerPrefs.GetFloat("SFXVolume");
-        Debug.Log("Mouse: " + savedMouseSensitive + "\nMusic: " + savedBackgroundMusic + "\nSFX: " + savedSFX);
-
-        backgroundMusic.volume = savedBackgroundMusic;
-        playerInteraction.volume = savedSFX;
-        //GameUI.gameUI.SetUISliderValue(savedMouseSensitive, savedBackgroundMusic, savedSFX);
     }
 
     /// <summary>
@@ -104,5 +102,81 @@ public class SettingManager : MonoBehaviour
     public void playGameSFX()
     {
         playerInteraction.PlayOneShot(gameSFX);
+    }
+
+    /// <summary>
+    /// Save setting data to a file
+    /// </summary>
+    /// <param name="isCurrentData">set to true will save the current data and false will save default data</param>
+    public void SaveSettingData(bool isCurrentData)
+    {
+        BinaryFormatter binFormatter = new BinaryFormatter();
+        FileStream file;
+        if (!File.Exists(savedDataPath))
+        {
+            file = File.Create(savedDataPath);
+            Debug.Log("Setting file created");
+        }
+        else
+        {
+            file = File.Open(savedDataPath, FileMode.Create);
+            Debug.Log("Setting file opened");
+        }
+        SettingData data = new SettingData();
+        if (isCurrentData)
+        {
+            data.fullScreen = Screen.fullScreen;
+            data.resolutionIndex = resolutionIndex;
+            data.windowWidth = width;
+            data.windowHeight = height;
+            data.musicVolume = backgroundMusic.volume;
+            data.SFXVolume = playerInteraction.volume;
+        }
+        else
+        {
+            data.fullScreen = true;
+            data.resolutionIndex = 0;
+            data.windowWidth = 1920;
+            data.windowHeight = 1080;
+            data.musicVolume = 1;
+            data.SFXVolume = 1;
+        }
+        binFormatter.Serialize(file, data);
+        file.Close();
+        Debug.Log("Setting saved");
+    }
+
+    /// <summary>
+    /// Load setting data from file
+    /// </summary>
+    public void LoadSettingData()
+    {
+        if (!File.Exists(savedDataPath))
+        {
+            SaveSettingData(false);
+            Debug.Log("No saved data found. New setting data file is created");
+        }
+        BinaryFormatter binFormatter = new BinaryFormatter();
+        FileStream file = File.Open(savedDataPath, FileMode.Open);
+        SettingData data = (SettingData)binFormatter.Deserialize(file);
+        file.Close();
+        Debug.Log("Load setting data:\n Screen mode: " + data.fullScreen + "\nResolution index: " + data.resolutionIndex + "\nResolution: " + data.windowWidth + " " + data.windowHeight + "\nMusic volume: " + data.musicVolume + "\nSFX volume: " + data.SFXVolume);
+        backgroundMusic.volume = data.musicVolume;
+        playerInteraction.volume = data.SFXVolume;
+        resolutionIndex = data.resolutionIndex;
+    }
+
+    /// <summary>
+    /// Return saved data
+    /// </summary>
+    /// <returns></returns>
+    public SettingData GetSavedData()
+    {
+        SettingData setting = new SettingData();
+        setting.fullScreen = Screen.fullScreen;
+        setting.resolutionIndex = resolutionIndex;
+        setting.musicVolume = backgroundMusic.volume;
+        setting.SFXVolume = playerInteraction.volume;
+        return setting;
     }
 }

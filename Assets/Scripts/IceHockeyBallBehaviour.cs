@@ -10,12 +10,14 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
     private Vector3 playerPos;
     private Vector3 startPos;
     private Rigidbody force;
+    public static IceHockeyBallBehaviour behav;
 
     [SerializeField] private float strength = 0.02f;
     // Start is called before the first frame update
     void Start()
     {
         force = GetComponent<Rigidbody>();
+        behav = GetComponent<IceHockeyBallBehaviour>();
         startPos = transform.position;
     }
 
@@ -34,10 +36,10 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
         switch (tag)
         {
             case "HostGoal":
-                Goal(true);
+                Goal(false);
                 break;
             case "ClientGoal":
-                Goal(false);
+                Goal(true);
                 break;
             default:
                 break;
@@ -72,8 +74,27 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
         {
             Debug.Log("Add a score to client !!!");
         }
+        RpcSetActive(false);
+        Referee.referee.AddScore(isHost);
+    }
+
+    /// <summary>
+    /// Hide the ball
+    /// </summary>
+    /// <param name="isActive">true if it's being shown and false if it's being hided</param>
+    [ClientRpc]
+    public void RpcSetActive(bool isActive)
+    {
+        gameObject.SetActive(isActive);
+    }
+
+    /// <summary>
+    /// Place the ball at start position
+    /// </summary>
+    [ClientRpc]
+    public void RpcSetDefaultPos()
+    {
         transform.position = startPos;
         force.velocity = new Vector3(0, 0, 0);
-        Referee.referee.AddScore(isHost);
     }
 }

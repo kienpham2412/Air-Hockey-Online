@@ -14,6 +14,10 @@ public class MirrorConnection : NetworkManager
     public override void OnServerConnect(NetworkConnection conn)
     {
         Debug.Log("Player " + conn.address + " join the game");
+        if (conn.connectionId == 0)
+        {
+            Debug.Log("host gameobject found");
+        }
         base.OnServerConnect(conn);
     }
 

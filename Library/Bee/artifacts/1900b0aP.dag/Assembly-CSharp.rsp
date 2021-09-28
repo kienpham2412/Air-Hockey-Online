@@ -324,7 +324,6 @@
 "Assets/Scripts/PlayerController.cs"
 "Assets/Scripts/Referee.cs"
 "Assets/Scripts/SettingManager.cs"
-"Assets/Scripts/SpawnPosBehavior.cs"
 -langversion:8.0
 
 /deterministic
