@@ -1,6 +1,10 @@
 ScriptsOnlyBuild:
   usedScripts:
     Assembly-CSharp.dll:
+    - AiryUIAnimatedElement
+    - AiryUIAnimationManager
+    - AiryUIBackButton
+    - AiryUIBackButtonManager
     - CameraBehaviour
     - ConsoleToGUI
     - GameManager
@@ -83,50 +87,48 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1512}
+      Script: {instanceID: 1514}
     - Class: 114
-      Script: {instanceID: 2552}
+      Script: {instanceID: 2558}
     - Class: 114
-      Script: {instanceID: 2764}
+      Script: {instanceID: 2770}
     - Class: 114
-      Script: {instanceID: 2894}
+      Script: {instanceID: 2904}
     - Class: 114
-      Script: {instanceID: 3048}
+      Script: {instanceID: 3058}
     - Class: 114
-      Script: {instanceID: 3320}
+      Script: {instanceID: 3330}
     - Class: 114
-      Script: {instanceID: 3966}
+      Script: {instanceID: 3980}
     - Class: 114
-      Script: {instanceID: 4316}
+      Script: {instanceID: 4334}
     - Class: 114
-      Script: {instanceID: 4790}
+      Script: {instanceID: 4808}
     - Class: 114
-      Script: {instanceID: 5036}
+      Script: {instanceID: 5054}
     - Class: 114
-      Script: {instanceID: 5178}
+      Script: {instanceID: 5196}
     - Class: 114
-      Script: {instanceID: 5596}
+      Script: {instanceID: 5624}
     - Class: 114
-      Script: {instanceID: 5752}
+      Script: {instanceID: 5780}
     - Class: 114
-      Script: {instanceID: 5792}
+      Script: {instanceID: 5820}
     - Class: 114
-      Script: {instanceID: 5796}
+      Script: {instanceID: 5824}
     - Class: 114
-      Script: {instanceID: 5916}
+      Script: {instanceID: 5948}
     - Class: 114
-      Script: {instanceID: 6088}
+      Script: {instanceID: 6120}
     - Class: 114
-      Script: {instanceID: 6798}
+      Script: {instanceID: 6836}
     - Class: 114
-      Script: {instanceID: 7022}
+      Script: {instanceID: 7060}
     - Class: 114
-      Script: {instanceID: 7330}
+      Script: {instanceID: 7368}
     - Class: 114
-      Script: {instanceID: 7354}
+      Script: {instanceID: 7392}
     - Class: 115
-      Script: {instanceID: 0}
-    - Class: 128
       Script: {instanceID: 0}
     - Class: 134
       Script: {instanceID: 0}
@@ -172,55 +174,63 @@ ScriptsOnlyBuild:
     - Class: 108
       Script: {instanceID: 0}
     - Class: 114
-      Script: {instanceID: 1512}
+      Script: {instanceID: 1514}
     - Class: 114
-      Script: {instanceID: 1684}
+      Script: {instanceID: 1686}
     - Class: 114
-      Script: {instanceID: 2128}
+      Script: {instanceID: 2130}
     - Class: 114
-      Script: {instanceID: 2552}
+      Script: {instanceID: 2394}
     - Class: 114
-      Script: {instanceID: 2764}
+      Script: {instanceID: 2558}
     - Class: 114
-      Script: {instanceID: 3048}
+      Script: {instanceID: 2770}
     - Class: 114
-      Script: {instanceID: 3320}
+      Script: {instanceID: 2824}
     - Class: 114
-      Script: {instanceID: 3844}
+      Script: {instanceID: 3058}
     - Class: 114
-      Script: {instanceID: 4072}
+      Script: {instanceID: 3330}
     - Class: 114
-      Script: {instanceID: 4086}
+      Script: {instanceID: 3858}
     - Class: 114
-      Script: {instanceID: 4338}
+      Script: {instanceID: 4090}
     - Class: 114
-      Script: {instanceID: 4842}
+      Script: {instanceID: 4104}
     - Class: 114
-      Script: {instanceID: 4898}
+      Script: {instanceID: 4356}
     - Class: 114
-      Script: {instanceID: 4948}
+      Script: {instanceID: 4860}
     - Class: 114
-      Script: {instanceID: 5036}
+      Script: {instanceID: 4916}
     - Class: 114
-      Script: {instanceID: 5178}
+      Script: {instanceID: 4966}
     - Class: 114
-      Script: {instanceID: 5298}
+      Script: {instanceID: 5054}
     - Class: 114
-      Script: {instanceID: 5596}
+      Script: {instanceID: 5196}
     - Class: 114
-      Script: {instanceID: 5752}
+      Script: {instanceID: 5322}
     - Class: 114
-      Script: {instanceID: 6076}
+      Script: {instanceID: 5528}
     - Class: 114
-      Script: {instanceID: 6088}
+      Script: {instanceID: 5624}
     - Class: 114
-      Script: {instanceID: 6096}
+      Script: {instanceID: 5780}
     - Class: 114
-      Script: {instanceID: 6798}
+      Script: {instanceID: 5830}
     - Class: 114
-      Script: {instanceID: 6864}
+      Script: {instanceID: 6108}
     - Class: 114
-      Script: {instanceID: 7138}
+      Script: {instanceID: 6120}
+    - Class: 114
+      Script: {instanceID: 6128}
+    - Class: 114
+      Script: {instanceID: 6836}
+    - Class: 114
+      Script: {instanceID: 6902}
+    - Class: 114
+      Script: {instanceID: 7176}
     - Class: 115
       Script: {instanceID: 0}
     - Class: 128
@@ -360,6 +370,12 @@ ScriptsOnlyBuild:
     className: RawImage
   - hash:
       serializedVersion: 2
+      Hash: 11935151ddbdabb1294ad57851054093
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AiryUIBackButton
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
@@ -444,6 +460,12 @@ ScriptsOnlyBuild:
     className: TMP_SpriteAnimator
   - hash:
       serializedVersion: 2
+      Hash: b53b21d6a0980b228ad194e55d124ffb
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AiryUIAnimatedElement
+  - hash:
+      serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
@@ -462,7 +484,7 @@ ScriptsOnlyBuild:
     className: TestResultRendererCallback
   - hash:
       serializedVersion: 2
-      Hash: b12923dc080595d385a9056ec439d870
+      Hash: e1b8574339fd66be94dd625a89bedc10
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: PlayerController
@@ -546,7 +568,7 @@ ScriptsOnlyBuild:
     className: FlowMachine
   - hash:
       serializedVersion: 2
-      Hash: 6594f4ef2481d22c0e614d06e3835b3f
+      Hash: 7a9cae816f73304908a79afb4aaf830a
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: SettingManager
@@ -658,6 +680,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
     className: SignalReceiver
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AiryUIAnchors
   - hash:
       serializedVersion: 2
       Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
@@ -900,6 +928,12 @@ ScriptsOnlyBuild:
     className: PanelEventHandler
   - hash:
       serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AiryUIAnimationPositions
+  - hash:
+      serializedVersion: 2
       Hash: c3d3430df9e3ea95e3e3d587961390fb
     assemblyName: Unity.Timeline.dll
     namespaceName: UnityEngine.Timeline
@@ -922,6 +956,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.State.dll
     namespaceName: Unity.VisualScripting
     className: StateGraphAsset
+  - hash:
+      serializedVersion: 2
+      Hash: 71bb6a6b6c8f052f948db64c7dd3ca4f
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AiryUIBackButtonManager
   - hash:
       serializedVersion: 2
       Hash: 6fd2bb55b3ee5edb6040a1c5bccd0e07
@@ -978,13 +1018,19 @@ ScriptsOnlyBuild:
     className: CameraBehaviour
   - hash:
       serializedVersion: 2
+      Hash: 39eacf64d4c60c2e4ef9e0886836cf0d
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AiryUIAnimationManager
+  - hash:
+      serializedVersion: 2
       Hash: 1d12411bfa32d734c4dad798554fe0fa
     assemblyName: Mirror.Components.dll
     namespaceName: Mirror
     className: NetworkLobbyManager
   - hash:
       serializedVersion: 2
-      Hash: 4ef2974e4b1248a278c8d5085a474a63
+      Hash: d5c856521fc8b226710e47e6c2d0a474
     assemblyName: Assembly-CSharp.dll
     namespaceName: 
     className: Referee
@@ -1234,6 +1280,12 @@ ScriptsOnlyBuild:
     assemblyName: Unity.VisualScripting.Core.dll
     namespaceName: Unity.VisualScripting
     className: Variables
+  - hash:
+      serializedVersion: 2
+      Hash: c395c0bbd4c50dde06f952e185a3fed8
+    assemblyName: Assembly-CSharp.dll
+    namespaceName: 
+    className: AiryUICustomAnimationElement
   - hash:
       serializedVersion: 2
       Hash: 2574ac7d50617d23cdefe4ad22f5e1ad

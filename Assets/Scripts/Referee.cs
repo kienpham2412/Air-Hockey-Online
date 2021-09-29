@@ -7,6 +7,9 @@ public class Referee : NetworkBehaviour
 {
     public static Referee referee;
     public GameObject iceHockeyBall;
+    public GameObject hostNetworkSpawnPos;
+    private GameObject hostObject;
+    private Rigidbody hostObjectRigid;
     private Vector3 startPos;
     private Coroutine countdownCoroutine;
 
@@ -34,6 +37,8 @@ public class Referee : NetworkBehaviour
         defaultSeconds = 10;
         hostScore = clientScore = 0;
         startPos = new Vector3(0, 0.149f, 0);
+        hostObject = null;
+        hostObjectRigid = null;
         Debug.Log("Initialize successfully");
     }
 
@@ -79,6 +84,7 @@ public class Referee : NetworkBehaviour
         PlayerController.player.RpcHideAfterWaiting();
         PlayerController.player.RpcDisplayGoalText(false, "not thing");
         PlayerController.player.RpcSetDefaultPos();
+        SetDefaultHostObject();
         IceHockeyBallBehaviour.behav.RpcSetDefaultPos();
 
         while (countFromThree >= 0)
@@ -153,7 +159,7 @@ public class Referee : NetworkBehaviour
     public void SetReady()
     {
         playerReady++;
-        if(playerReady == 1)
+        if (playerReady == 1)
         {
             StartGame();
         }
@@ -189,5 +195,21 @@ public class Referee : NetworkBehaviour
         PlayerController.player.RpcSetActive(false);
         IceHockeyBallBehaviour.behav.RpcSetActive(false);
         PlayerController.player.WinnerAnnoucement(true, isHostWin);
+    }
+
+    /// <summary>
+    /// Place local client player gameobject to start position
+    /// </summary>
+    private void SetDefaultHostObject()
+    {
+        if (hostObject == null || hostObjectRigid == null)
+        {
+            hostObject = GameObject.Find("Player [connId=0]");
+            hostObjectRigid = hostObject.GetComponent<Rigidbody>();
+        }
+        hostObject.SetActive(false);
+        hostObject.transform.position = hostNetworkSpawnPos.transform.position;
+        hostObjectRigid.velocity = new Vector3(0, 0, 0);
+        hostObject.SetActive(true);
     }
 }

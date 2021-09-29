@@ -54,11 +54,6 @@ public class GameUI : MonoBehaviour
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-    }
-
     /// <summary>
     /// Close game action
     /// </summary>
@@ -309,6 +304,7 @@ public class GameUI : MonoBehaviour
     public void ShowExitNotification()
     {
         exitNotification.SetActive(true);
+        SettingManager.settingManager.playUISFX();
     }
 
     /// <summary>
@@ -317,6 +313,7 @@ public class GameUI : MonoBehaviour
     public void HideExitNotification()
     {
         exitNotification.SetActive(false);
+        SettingManager.settingManager.playUISFX();
     }
 
     /// <summary>
@@ -324,6 +321,7 @@ public class GameUI : MonoBehaviour
     /// </summary>
     public void ExitGame()
     {
+        SettingManager.settingManager.playUISFX();
         GameManager.gameManager.ReturnToTitleMenu();
     }
 

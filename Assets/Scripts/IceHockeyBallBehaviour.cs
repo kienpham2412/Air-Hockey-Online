@@ -27,6 +27,7 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
         {
             RpcAddForce(collision.gameObject);
         }
+        PlayerController.player.RpcPlaySFX("Gameplay");
     }
 
     private void OnTriggerEnter(Collider other)
@@ -44,6 +45,7 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
             default:
                 break;
         }
+        PlayerController.player.RpcPlaySFX("Goal");
     }
 
     /// <summary>

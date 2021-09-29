@@ -19,9 +19,6 @@ public class PlayerController : NetworkBehaviour
     private float zLimitRange = 0.75f;
     private float middleBorder = 0f;
     private float upperZLimitRange, lowerZLimitRange;
-    private int hostScore, clientScore, yourScore;
-    [SerializeField]
-    private bool playerActive;
 
     // Start is called before the first frame update
     void Start()
@@ -29,10 +26,10 @@ public class PlayerController : NetworkBehaviour
         player = gameObject.GetComponent<PlayerController>();
         playerRigidBody = gameObject.GetComponent<Rigidbody>();
 
-        playerActive = false;
         verticalMovement = Vector3.forward * speed;
         horizontalMovement = Vector3.right * speed;
         playerStartPos = gameObject.transform.position;
+        playerRigidBody.velocity = new Vector3(0, 0, 0);
 
         if (this.isServer)
         {
@@ -62,7 +59,7 @@ public class PlayerController : NetworkBehaviour
         xPos = transform.position.x;
         zPos = transform.position.z;
 
-        if (this.isLocalPlayer && playerActive)
+        if (this.isLocalPlayer && SettingManager.settingManager.playerActive)
         {
             //horizontalInput = Input.GetAxis("Mouse X");
             //verticalInput = Input.GetAxis("Mouse Y");
@@ -139,11 +136,7 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     public void RpcSetActive(bool isActive)
     {
-        playerActive = isActive;
-        if (this.isServer)
-        {
-            Debug.Log("Set host active: " + playerActive);
-        }
+        SettingManager.settingManager.playerActive = isActive;
     }
 
     /// <summary>
@@ -152,8 +145,10 @@ public class PlayerController : NetworkBehaviour
     [ClientRpc]
     public void RpcSetDefaultPos()
     {
-        transform.position = playerStartPos;
-        playerRigidBody.velocity = new Vector3(0, 0, 0);
+        this.gameObject.SetActive(false);
+        this.transform.position = this.playerStartPos;
+        this.playerRigidBody.velocity = new Vector3(0, 0, 0);
+        this.gameObject.SetActive(true);
     }
 
     /// <summary>
@@ -179,10 +174,12 @@ public class PlayerController : NetworkBehaviour
             if (isHostWin)
             {
                 GameUI.gameUI.DisplayGoalText(isDisplay, "You win");
+                SettingManager.settingManager.playEndgameSFX(true);
             }
             else
             {
                 GameUI.gameUI.DisplayGoalText(isDisplay, "You lose");
+                SettingManager.settingManager.playEndgameSFX(false);
             }
         }
         else
@@ -190,11 +187,39 @@ public class PlayerController : NetworkBehaviour
             if (isHostWin)
             {
                 GameUI.gameUI.DisplayGoalText(isDisplay, "You lose");
+                SettingManager.settingManager.playEndgameSFX(false);
             }
             else
             {
                 GameUI.gameUI.DisplayGoalText(isDisplay, "You win");
+                SettingManager.settingManager.playEndgameSFX(true);
             }
+        }
+    }
+
+    /// <summary>
+    /// Play sound effect
+    /// </summary>
+    /// <param name="sfxName">Name of sound effect</param>
+    [ClientRpc]
+    public void RpcPlaySFX(string sfxName)
+    {
+        switch (sfxName)
+        {
+            case "Gameplay":
+                SettingManager.settingManager.playGameSFX();
+                break;
+            case "Goal":
+                SettingManager.settingManager.playGoalSFX();
+                break;
+            case "Win":
+                SettingManager.settingManager.playEndgameSFX(true);
+                break;
+            case "Lose":
+                SettingManager.settingManager.playEndgameSFX(false);
+                break;
+            default:
+                break;
         }
     }
 }

@@ -24,9 +24,13 @@ public class SettingManager : MonoBehaviour
     private AudioSource playerInteraction;
     public AudioClip uiSFX;
     public AudioClip gameSFX;
+    public AudioClip goalSFX;
+    public AudioClip winSFX;
+    public AudioClip loseSFX;
 
     private string savedDataPath;
     private int resolutionIndex, width, height;
+    public bool playerActive;
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +39,7 @@ public class SettingManager : MonoBehaviour
         backgroundMusic = GameObject.Find("Main Camera").GetComponent<AudioSource>();
         playerInteraction = gameObject.GetComponent<AudioSource>();
         savedDataPath = Application.dataPath + "/Setting.dat";
+        playerActive = false;
 
         LoadSettingData();
     }
@@ -94,6 +99,7 @@ public class SettingManager : MonoBehaviour
     public void playUISFX()
     {
         playerInteraction.PlayOneShot(uiSFX);
+        Debug.Log("Play UI SFX");
     }
 
     /// <summary>
@@ -102,6 +108,34 @@ public class SettingManager : MonoBehaviour
     public void playGameSFX()
     {
         playerInteraction.PlayOneShot(gameSFX);
+        Debug.Log("Play gameplay SFX");
+    }
+
+    /// <summary>
+    /// Play goal sound effect
+    /// </summary>
+    public void playGoalSFX()
+    {
+        playerInteraction.PlayOneShot(goalSFX);
+        Debug.Log("Play goal SFX");
+    }
+
+    /// <summary>
+    /// Play endgame sound effect
+    /// </summary>
+    /// <param name="isWinner">play win or lose sound effect</param>
+    public void playEndgameSFX(bool isWinner)
+    {
+        if (isWinner)
+        {
+            playerInteraction.PlayOneShot(winSFX);
+            Debug.Log("Play win SFX");
+        }
+        else
+        {
+            playerInteraction.PlayOneShot(loseSFX);
+            Debug.Log("Play lose SFX");
+        }
     }
 
     /// <summary>

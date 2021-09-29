@@ -56,16 +56,23 @@
     <Analyzer Include="H:\app\visual studio\visual studio\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIBackButton.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnimatedElement.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\SettingManager.cs" />
     <Compile Include="Assets\Scripts\NetworkConnector.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnchors.cs" />
     <Compile Include="Assets\Scripts\ConsoleToGUI.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnimationPositions.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIBackButtonManager.cs" />
     <Compile Include="Assets\Scripts\CameraBehaviour.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnimationManager.cs" />
     <Compile Include="Assets\Scripts\Referee.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameUI.cs" />
     <Compile Include="Assets\Scripts\IceHockeyBallBehaviour.cs" />
     <Compile Include="Assets\Scripts\MirrorConnection.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUICustomAnimationElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />

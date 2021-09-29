@@ -5,16 +5,16 @@ m_ProjectFiles:
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637664890590009182
-    m_Hash: 82556251
+      ticks: 637683947548566155
+    m_Hash: 3143476529
   m_LockFileStatus:
     m_FilePath: G:/unity proj/Hockey/HockeyGame/Packages/packages-lock.json
     m_PathExists: 1
     m_ContentTrackingEnabled: 1
     m_ModificationDate:
       serializedVersion: 2
-      ticks: 637664890591864564
-    m_Hash: 2987980653
+      ticks: 637683947549956175
+    m_Hash: 43049020
 m_EmbeddedPackageManifests:
   m_ManifestsStatus: {}
 m_LocalPackages:
@@ -68,6 +68,8 @@ m_ResolvedPackages:
     - 1.7.1
     - 1.8.0
     - 1.9.0
+    - 1.10.2
+    - 1.11.2
     - 2.0.0-preview.6
     - 2.0.0-preview.8
     - 2.0.0-preview.15
@@ -84,6 +86,8 @@ m_ResolvedPackages:
     - 1.7.1
     - 1.8.0
     - 1.9.0
+    - 1.10.2
+    - 1.11.2
     - 2.0.0-preview.6
     - 2.0.0-preview.8
     - 2.0.0-preview.15
@@ -261,7 +265,7 @@ m_ResolvedPackages:
     version: 1.1.9
   resolvedDependencies:
   - name: com.unity.test-framework
-    version: 1.1.27
+    version: 1.1.29
   - name: com.unity.ext.nunit
     version: 1.0.6
   - name: com.unity.modules.imgui
@@ -356,12 +360,12 @@ m_ResolvedPackages:
   unityLifecycle:
     version: 1.2.3
     nextVersion: 
-- packageId: com.unity.test-framework@1.1.27
+- packageId: com.unity.test-framework@1.1.29
   testable: 0
   isDirectDependency: 1
-  version: 1.1.27
+  version: 1.1.29
   source: 1
-  resolvedPath: G:\unity proj\Hockey\HockeyGame\Library\PackageCache\com.unity.test-framework@1.1.27
+  resolvedPath: G:\unity proj\Hockey\HockeyGame\Library\PackageCache\com.unity.test-framework@1.1.29
   assetPath: Packages/com.unity.test-framework
   name: com.unity.test-framework
   displayName: Test Framework
@@ -440,13 +444,13 @@ m_ResolvedPackages:
   entitlements:
     isAllowed: 1
   isAssetStorePackage: 0
-  datePublishedTicks: 637594751620000000
+  datePublishedTicks: 637647922650000000
   documentationUrl: 
   hasRepository: 1
   repository:
     type: git
     url: git+https://github.com/Unity-Technologies/com.unity.test-framework.git
-    revision: c2f2cc9b7ea61d42964257363595dff5e8c47c42
+    revision: dac53542acdab7a12e9ebf111ac588d0e53cf483
     path: 
   unityLifecycle:
     version: 1.1.27
