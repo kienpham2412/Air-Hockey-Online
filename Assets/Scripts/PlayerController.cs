@@ -20,7 +20,9 @@ public class PlayerController : NetworkBehaviour
     private float middleBorder = 0f;
     private float upperZLimitRange, lowerZLimitRange;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         player = gameObject.GetComponent<PlayerController>();
@@ -45,8 +47,10 @@ public class PlayerController : NetworkBehaviour
         }
     }
 
-    // Update is called once per frame
-    void LateUpdate()
+    /// <summary>
+    /// Update is called once per frame
+    /// </summary>
+    void Update()
     {
         ControlMovement();
     }
@@ -87,7 +91,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Update score to UI using GameUI's API
+    /// Update score to the UI
     /// </summary>
     /// <param name="score">The score value to be updated</param>
     /// <param name="isHost">Is the score belong to host or client</param>
@@ -98,7 +102,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Hide the Waiting notification and ready button using GameUI's API
+    /// This is a kind of message that is invoked to hide the waiting notification and ready button in the UI
     /// </summary>
     [ClientRpc]
     public void RpcHideAfterWaiting()
@@ -108,10 +112,10 @@ public class PlayerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Display the remaining time of a round using GameUI's API
+    /// This is a kind of message that is invoked to display the remaining time of a round in the UI
     /// </summary>
-    /// <param name="minute"></param>
-    /// <param name="second"></param>
+    /// <param name="minute">Remaining minutes</param>
+    /// <param name="second">Remaining seconds</param>
     [ClientRpc]
     public void RpcDisplayPlayTime(int minute, int second)
     {
@@ -119,7 +123,7 @@ public class PlayerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Display the countdown at the beginning of a round using GameUI's API
+    /// This is a kind of message that is invoked to display the countdown at the beginning of a round in the UI
     /// </summary>
     /// <param name="num"></param>
     /// <param name="isActive"></param>
@@ -132,7 +136,7 @@ public class PlayerController : NetworkBehaviour
     /// <summary>
     /// Set controllability to the player
     /// </summary>
-    /// <param name="isActive"></param>
+    /// <param name="isActive">Is the player gameobject controllable ?</param>
     [ClientRpc]
     public void RpcSetActive(bool isActive)
     {
@@ -152,9 +156,10 @@ public class PlayerController : NetworkBehaviour
     }
 
     /// <summary>
-    /// Display the goal text using GameUI's API
+    /// This is a kind of message that is invoked to display the goal text in the UI
     /// </summary>
-    /// <param name="isDisplay"></param>
+    /// <param name="isDisplay">Is this text being shown? (true or false)</param>
+    /// <param name="content">The content that is being shown</param>
     [ClientRpc]
     public void RpcDisplayGoalText(bool isDisplay, string content)
     {
@@ -165,7 +170,7 @@ public class PlayerController : NetworkBehaviour
     /// Announce who is the winner
     /// </summary>
     /// <param name="isDisplay">Hide or display this announcement</param>
-    /// <param name="isHostWin">Who is the winner ? (host or client)</param>
+    /// <param name="isHostWin">True if the host win and false if the client win</param>
     [ClientRpc]
     public void WinnerAnnoucement(bool isDisplay, bool isHostWin)
     {
@@ -200,7 +205,7 @@ public class PlayerController : NetworkBehaviour
     /// <summary>
     /// Play sound effect
     /// </summary>
-    /// <param name="sfxName">Name of sound effect</param>
+    /// <param name="sfxName">Name of the sound effect</param>
     [ClientRpc]
     public void RpcPlaySFX(string sfxName)
     {

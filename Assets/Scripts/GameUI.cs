@@ -36,7 +36,9 @@ public class GameUI : MonoBehaviour
     private int menuID;
     private int[,] resolution = { { 1920, 1080 }, { 1280, 720 }, { 800, 600 } };
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         menuID = 1;
@@ -55,7 +57,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Close game action
+    /// Start the close procedure
     /// </summary>
     public void CloseGame()
     {
@@ -83,7 +85,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call the Exit funtion in GameManager class
+    /// Start the exit procedure
     /// </summary>
     public void Exit()
     {
@@ -101,16 +103,13 @@ public class GameUI : MonoBehaviour
         PlayButtonClickSFX();
     }
 
-    /// <summary>
-    /// Load control setting menu
-    /// </summary>
-    public void LoadControlSettingMenu()
-    {
-        menuID++;
-        settingMenu.SetActive(false);
-        controlSettingMenu.SetActive(true);
-        PlayButtonClickSFX();
-    }
+    //public void LoadControlSettingMenu()
+    //{
+    //    menuID++;
+    //    settingMenu.SetActive(false);
+    //    controlSettingMenu.SetActive(true);
+    //    PlayButtonClickSFX();
+    //}
 
     /// <summary>
     /// Load video setting menu
@@ -135,7 +134,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Load play game menu
+    /// Load choose game mode menu
     /// </summary>
     public void LoadPlayGameMenu()
     {
@@ -173,7 +172,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call TongleScreen Mode function in SettingManager class
+    /// Receive player's interacion and start the toggle fullscreen procedure
     /// </summary>
     public void SetScreenMode()
     {
@@ -181,7 +180,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call ChangeResolution function in SettingManager class
+    /// Receive player's interacion and start the change resolution procedure
     /// </summary>
     public void SetResolution()
     {
@@ -190,16 +189,13 @@ public class GameUI : MonoBehaviour
         SettingManager.settingManager.ChangeResolution(index, resolution[index, 0], resolution[index, 1]);
     }
 
-    /// <summary>
-    /// Call ChangeMouseSensitive function in SettingManager class
-    /// </summary>
-    public void SetMouseSensitive()
-    {
-        SettingManager.settingManager.ChangeMouseSensitive(mouseSensitiveSlider.value);
-    }
+    //public void SetMouseSensitive()
+    //{
+    //    SettingManager.settingManager.ChangeMouseSensitive(mouseSensitiveSlider.value);
+    //}
 
     /// <summary>
-    /// Call ChangeMusicVolume function in SettingManager class
+    /// Receive player's interacion and start the change music volume procedure
     /// </summary>
     public void SetMusicVolume()
     {
@@ -207,7 +203,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call ChangeSFXVolume function in SettingManager class
+    /// Receive player's interacion and start the change sfx volume procedure
     /// </summary>
     public void SetSFXVolume()
     {
@@ -217,9 +213,8 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Load saved setting data to the UI
     /// </summary>
-    /// <param name="mouseSensitive"> player movement speed when use mouse control </param>
-    /// <param name="backgroundMusic"> the volume of background music played in the game </param>
-    /// <param name="sfx"> the volume of sound effect played in the game </param>
+    /// <param name="backgroundMusic">The volume of background music played in the game </param>
+    /// <param name="sfx">The volume of sound effect played in the game </param>
     public void SetUISliderValue(float backgroundMusic, float sfx)
     {
         musicVolumeSlider.value = backgroundMusic;
@@ -227,7 +222,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call OpenHost function in GameManager class
+    /// Receive player's interacion and open a new scene as host
     /// </summary>
     public void OpenHost()
     {
@@ -236,7 +231,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call OpenClient function in GameManager class
+    /// Receive player's interacion and open a new scene as client
     /// </summary>
     public void OpenClient()
     {
@@ -247,7 +242,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call PlayButtonClickSFX functin in SettingManager class
+    /// Call the play sfx procedure when player click a button
     /// </summary>
     private void PlayButtonClickSFX()
     {
@@ -255,7 +250,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Set play score to the UI
+    /// Display the player score to the UI
     /// </summary>
     /// <param name="score">The score to be set</param>
     /// <param name="isHost">Is the score belong to host or client ?</param>
@@ -272,10 +267,10 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Display time remaining using mm:ss format
+    /// Display remaining time using mm:ss format
     /// </summary>
-    /// <param name="minute"></param>
-    /// <param name="seconds"></param>
+    /// <param name="minute">Remaining minutes</param>
+    /// <param name="seconds">Remaining seconds</param>
     public void DisplayPlayTime(int minute, int seconds)
     {
         string minuteString, secondsString;
@@ -328,8 +323,8 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Display and hide waiting notification and ready button
     /// </summary>
-    /// <param name="isWaiting">true if waiting notification is going to be shown and false if ready button is going to be shown</param>
-    /// <param name="isShown">true if the UI is going to be shown and false if it's going to be hided</param>
+    /// <param name="isWaiting">True if waiting notification is going to be shown and false if ready button is going to be shown</param>
+    /// <param name="isShown">True if the UI is going to be shown and false if it's going to be hided</param>
     public void DisplayInWaiting(bool isWaiting, bool isShown)
     {
         if (isWaiting)
@@ -345,8 +340,8 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Display the countdown UI
     /// </summary>
-    /// <param name="countDownNum"></param>
-    /// <param name="isActive"></param>
+    /// <param name="countDownNum">The value that is going to be shown</param>
+    /// <param name="isActive">Is the UI going to be shown or hided ? (true, false)</param>
     public void DisplayCountDown(int countDownNum, bool isActive)
     {
         countDown.SetActive(isActive);

@@ -8,14 +8,16 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         gameManager = gameObject.GetComponent<GameManager>();
     }
 
     /// <summary>
-    /// Create a host instance using Mirror
+    /// Start new scene as host
     /// </summary>
     public void OpenHost()
     {
@@ -25,9 +27,9 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Create a client instance using Mirror
+    /// Start new scene as client
     /// </summary>
-    /// <param name="ip"></param>
+    /// <param name="ip">The host's ip to connect to</param>
     public void OpenClient(string ip)
     {
         PlayerPrefs.SetInt("IsHost", 0);
@@ -36,7 +38,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Return to title menu
+    /// Exit the match and return to title menu
     /// </summary>
     public void ReturnToTitleMenu()
     {
@@ -45,7 +47,7 @@ public class GameManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Exit to desktop
+    /// Exit game and close the window
     /// </summary>
     public void Exit()
     {

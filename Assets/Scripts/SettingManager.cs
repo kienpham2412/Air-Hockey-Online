@@ -32,7 +32,9 @@ public class SettingManager : MonoBehaviour
     private int resolutionIndex, width, height;
     public bool playerActive;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         settingManager = gameObject.GetComponent<SettingManager>();
@@ -55,8 +57,8 @@ public class SettingManager : MonoBehaviour
     /// <summary>
     /// Change the resolution of the game window
     /// </summary>
-    /// <param name="width"> Window's width (pixel)</param>
-    /// <param name="height"> Window's height (pixel)</param>
+    /// <param name="width">Window's width (pixel)</param>
+    /// <param name="height">Window's height (pixel)</param>
     public void ChangeResolution(int resolutionIndex, int width, int height)
     {
         this.resolutionIndex = resolutionIndex;
@@ -65,29 +67,25 @@ public class SettingManager : MonoBehaviour
         Screen.SetResolution(width, height, Screen.fullScreen);
     }
 
-    /// <summary>
-    /// Save the player movement speed value
-    /// </summary>
-    /// <param name="mouseSensitive"> The value that is saved</param>
-    public void ChangeMouseSensitive(float mouseSensitive)
-    {
-        PlayerPrefs.SetFloat("MouseSensitive", mouseSensitive);
-        Debug.Log("Saved mouse sensitive: " + mouseSensitive);
-    }
+    //public void ChangeMouseSensitive(float mouseSensitive)
+    //{
+    //    PlayerPrefs.SetFloat("MouseSensitive", mouseSensitive);
+    //    Debug.Log("Saved mouse sensitive: " + mouseSensitive);
+    //}
 
     /// <summary>
-    /// Save the music volume value
+    /// Change the background music volume
     /// </summary>
-    /// <param name="musicVolume"> The value that is saved</param>
+    /// <param name="musicVolume">The volume of background music</param>
     public void ChangeMusicVolume(float musicVolume)
     {
         backgroundMusic.volume = musicVolume;
     }
 
     /// <summary>
-    /// Save the sound effect value
+    /// Change the sound effect volume
     /// </summary>
-    /// <param name="SFXVolume"> The value that is saved</param>
+    /// <param name="SFXVolume">The volume of sound effect</param>
     public void ChangeSFXVolume(float SFXVolume)
     {
         playerInteraction.volume = SFXVolume;
@@ -123,7 +121,7 @@ public class SettingManager : MonoBehaviour
     /// <summary>
     /// Play endgame sound effect
     /// </summary>
-    /// <param name="isWinner">play win or lose sound effect</param>
+    /// <param name="isWinner">Play win or lose sound effect</param>
     public void playEndgameSFX(bool isWinner)
     {
         if (isWinner)
@@ -141,7 +139,7 @@ public class SettingManager : MonoBehaviour
     /// <summary>
     /// Save setting data to a file
     /// </summary>
-    /// <param name="isCurrentData">set to true will save the current data and false will save default data</param>
+    /// <param name="isCurrentData">Set to true will save the current data and false will save default data</param>
     public void SaveSettingData(bool isCurrentData)
     {
         BinaryFormatter binFormatter = new BinaryFormatter();

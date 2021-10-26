@@ -13,14 +13,20 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
     public static IceHockeyBallBehaviour behav;
 
     [SerializeField] private float strength = 0.02f;
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         force = GetComponent<Rigidbody>();
         behav = GetComponent<IceHockeyBallBehaviour>();
-        startPos = transform.position;
+        startPos = gameObject.transform.position;
     }
-
+    
+    /// <summary>
+    /// The event when this gameobject collides with another gameobject
+    /// </summary>
+    /// <param name="collision">The another gameobject that is collided by this gameobject</param>
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.CompareTag("Player"))
@@ -30,6 +36,10 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
         PlayerController.player.RpcPlaySFX("Gameplay");
     }
 
+    /// <summary>
+    /// The event when this gameobject collides with the trigger gameobject
+    /// </summary>
+    /// <param name="other">The trigger gameobject that is collides by this gameobject</param>
     private void OnTriggerEnter(Collider other)
     {
         string tag = other.gameObject.tag;
@@ -51,7 +61,7 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
     /// <summary>
     /// Add a force to this gameobject when it collides another gameobject
     /// </summary>
-    /// <param name="gameObj">the another gameobject</param>
+    /// <param name="gameObj">The another gameobject</param>
     [Server]
     private void RpcAddForce(GameObject gameObj)
     {
@@ -62,9 +72,9 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
     }
 
     /// <summary>
-    /// Add a score when the ball collide the goal
+    /// Add a score when the ball collides a goal
     /// </summary>
-    /// <param name="isHost"> true if it's host's goal and false if it's client's goal </param>
+    /// <param name="isHost">True if it's host's goal and false if it's client's goal </param>
     [Server]
     private void Goal(bool isHost)
     {
@@ -83,7 +93,7 @@ public class IceHockeyBallBehaviour : NetworkBehaviour
     /// <summary>
     /// Hide the ball
     /// </summary>
-    /// <param name="isActive">true if it's being shown and false if it's being hided</param>
+    /// <param name="isActive">True if it's being shown and false if it's being hided</param>
     [ClientRpc]
     public void RpcSetActive(bool isActive)
     {

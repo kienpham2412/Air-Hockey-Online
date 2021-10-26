@@ -19,7 +19,9 @@ public class Referee : NetworkBehaviour
     [SerializeField]
     private int playerReady;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         referee = gameObject.GetComponent<Referee>();
@@ -28,13 +30,13 @@ public class Referee : NetworkBehaviour
     }
 
     /// <summary>
-    /// Initiate some values
+    /// Initiate the importants values
     /// </summary>
     private void InitializeValues()
     {
         playerReady = 0;
-        defaulMinute = 0;
-        defaultSeconds = 10;
+        defaulMinute = 10;
+        defaultSeconds = 0;
         hostScore = clientScore = 0;
         startPos = new Vector3(0, 0.149f, 0);
         hostObject = null;
@@ -54,7 +56,7 @@ public class Referee : NetworkBehaviour
     /// <summary>
     /// Caculate the score and display to UI
     /// </summary>
-    /// <param name="isHost"></param>
+    /// <param name="isHost">True if the caculated score is belong to host and false if it's belong to client</param>
     public void AddScore(bool isHost)
     {
         if (isHost)
@@ -74,7 +76,9 @@ public class Referee : NetworkBehaviour
     /// <summary>
     /// Calculate the time remain
     /// </summary>
-    /// <returns></returns>
+    /// <param name="fromMinute">the minute value that is counted from</param>
+    /// <param name="fromSeconds">the seconds value that is counted from<</param>
+    /// <returns>Return the delayed time (1 seconds)</returns>
     IEnumerator CountDown(int fromMinute, int fromSeconds)
     {
         countedMinute = fromMinute;
@@ -119,7 +123,7 @@ public class Referee : NetworkBehaviour
     /// <summary>
     /// Called when a player get a score
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Return the delayed time (1.5 seconds)</returns>
     IEnumerator GoalProcedure()
     {
         PlayerController.player.RpcDisplayGoalText(true, "Goal !!!");
@@ -129,7 +133,7 @@ public class Referee : NetworkBehaviour
     }
 
     /// <summary>
-    /// Update playtime to all instances
+    /// Update infomation to the UI of all instances
     /// </summary>
     private void UpdateToInstances(string opt)
     {

@@ -62,7 +62,6 @@
     <Compile Include="Assets\Scripts\SettingManager.cs" />
     <Compile Include="Assets\Scripts\NetworkConnector.cs" />
     <Compile Include="Assets\Airy UI\Scripts\AiryUIAnchors.cs" />
-    <Compile Include="Assets\Scripts\ConsoleToGUI.cs" />
     <Compile Include="Assets\Airy UI\Scripts\AiryUIAnimationPositions.cs" />
     <Compile Include="Assets\Airy UI\Scripts\AiryUIBackButtonManager.cs" />
     <Compile Include="Assets\Scripts\CameraBehaviour.cs" />

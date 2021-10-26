@@ -363,7 +363,6 @@
 "Assets/Airy UI/Scripts/AiryUIBackButtonManager.cs"
 "Assets/Airy UI/Scripts/AiryUICustomAnimationElement.cs"
 "Assets/Scripts/CameraBehaviour.cs"
-"Assets/Scripts/ConsoleToGUI.cs"
 "Assets/Scripts/GameManager.cs"
 "Assets/Scripts/GameUI.cs"
 "Assets/Scripts/IceHockeyBallBehaviour.cs"
