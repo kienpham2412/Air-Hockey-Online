@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <LangVersion>latest</LangVersion>
+    <LangVersion>8.0</LangVersion>
   </PropertyGroup>
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -53,16 +53,25 @@
     <UnityVersion>2021.1.15f1</UnityVersion>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Assets\Scripts\SpawnPosBehavior.cs" />
+    <Analyzer Include="H:\app\visual studio\visual studio\Common7\IDE\Extensions\Microsoft\Visual Studio Tools for Unity\Analyzers\Microsoft.Unity.Analyzers.dll" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIBackButton.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnimatedElement.cs" />
     <Compile Include="Assets\Scripts\PlayerController.cs" />
     <Compile Include="Assets\Scripts\SettingManager.cs" />
     <Compile Include="Assets\Scripts\NetworkConnector.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnchors.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnimationPositions.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIBackButtonManager.cs" />
     <Compile Include="Assets\Scripts\CameraBehaviour.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUIAnimationManager.cs" />
     <Compile Include="Assets\Scripts\Referee.cs" />
     <Compile Include="Assets\Scripts\GameManager.cs" />
     <Compile Include="Assets\Scripts\GameUI.cs" />
     <Compile Include="Assets\Scripts\IceHockeyBallBehaviour.cs" />
     <Compile Include="Assets\Scripts\MirrorConnection.cs" />
+    <Compile Include="Assets\Airy UI\Scripts\AiryUICustomAnimationElement.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Assets\Mirror\Plugins\Mono.Cecil\Mono.CecilX.dll" />

@@ -1,0 +1,60 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="GameManager">
+    <Position X="7.25" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAACAAAAAAAAAAAAAAABAAAAAAIAGAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\GameManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="GameUI">
+    <Position X="10.75" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>iQASAQQBgiAAFDg2QhAACGDBAJAJJAAJYIUwBhEDJAA=</HashCode>
+      <FileName>Assets\Scripts\GameUI.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="IceHockeyBallBehaviour">
+    <Position X="4" Y="1.75" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>QQgAAQAAACAAAAAIABAAAAAAQAAAAAAIQAAAAAAIAAI=</HashCode>
+      <FileName>Assets\Scripts\IceHockeyBallBehaviour.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="MirrorConnection">
+    <Position X="1" Y="1.75" Width="2.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAgAAAAAAAAAAAAIAAQAAAAAAAAAAAEA=</HashCode>
+      <FileName>Assets\Scripts\MirrorConnection.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="NetworkConnector">
+    <Position X="1" Y="4" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAACAAAAIAAAAAAJABAAAAAAAAEAAAAAAAAAA=</HashCode>
+      <FileName>Assets\Scripts\NetworkConnector.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="PlayerController">
+    <Position X="13.5" Y="2.5" Width="2" />
+    <TypeIdentifier>
+      <HashCode>IAQAAAAEAKCAAQAIAAAgEAAAQCAAAYiBCAARFATBAAg=</HashCode>
+      <FileName>Assets\Scripts\PlayerController.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="Referee">
+    <Position X="16" Y="2.5" Width="2.25" />
+    <TypeIdentifier>
+      <HashCode>AQQAAAAAACCAEFAAAIAQABAiKAABIAKJAhACAgQAoAI=</HashCode>
+      <FileName>Assets\Scripts\Referee.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="SettingManager">
+    <Position X="7.25" Y="5" Width="2.75" />
+    <TypeIdentifier>
+      <HashCode>gCCAAACAACECIARAQFQKhAAACAQAAAAAAGAAQAAAAIA=</HashCode>
+      <FileName>Assets\Scripts\SettingManager.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

@@ -9,9 +9,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirror.Components", "Mirror
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Telepathy", "Telepathy.csproj", "{457C0B3D-2B8E-CC7D-E7C5-2D27C4619159}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kcp2k", "kcp2k.csproj", "{02A86967-1487-40BB-1F97-FE6EED4FBBF2}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp", "Assembly-CSharp.csproj", "{3F2BD0AC-236A-5EEF-73D1-06A8E9FA8154}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "kcp2k", "kcp2k.csproj", "{02A86967-1487-40BB-1F97-FE6EED4FBBF2}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "where-allocations", "where-allocations.csproj", "{C40C0E38-9645-9E04-292A-2F602ED873E8}"
 EndProject
@@ -22,6 +22,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirror.Editor", "Mirror.Editor.csproj", "{15CF3848-36AD-D500-E388-2528D73DA568}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Mirror.CompilerSymbols", "Mirror.CompilerSymbols.csproj", "{3DC3DBC8-6819-6784-3F36-A2BB7B245311}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "Assembly-CSharp-Editor.csproj", "{E39B4382-950D-0280-8D2F-F299471CAD3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -45,14 +47,14 @@ Global
 		{457C0B3D-2B8E-CC7D-E7C5-2D27C4619159}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{457C0B3D-2B8E-CC7D-E7C5-2D27C4619159}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{457C0B3D-2B8E-CC7D-E7C5-2D27C4619159}.Release|Any CPU.Build.0 = Release|Any CPU
-		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{3F2BD0AC-236A-5EEF-73D1-06A8E9FA8154}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{3F2BD0AC-236A-5EEF-73D1-06A8E9FA8154}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3F2BD0AC-236A-5EEF-73D1-06A8E9FA8154}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3F2BD0AC-236A-5EEF-73D1-06A8E9FA8154}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02A86967-1487-40BB-1F97-FE6EED4FBBF2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C40C0E38-9645-9E04-292A-2F602ED873E8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C40C0E38-9645-9E04-292A-2F602ED873E8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C40C0E38-9645-9E04-292A-2F602ED873E8}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -73,6 +75,10 @@ Global
 		{3DC3DBC8-6819-6784-3F36-A2BB7B245311}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DC3DBC8-6819-6784-3F36-A2BB7B245311}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DC3DBC8-6819-6784-3F36-A2BB7B245311}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E39B4382-950D-0280-8D2F-F299471CAD3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E39B4382-950D-0280-8D2F-F299471CAD3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E39B4382-950D-0280-8D2F-F299471CAD3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E39B4382-950D-0280-8D2F-F299471CAD3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

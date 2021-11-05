@@ -6,14 +6,18 @@ using Mirror;
 public class NetworkConnector : MonoBehaviour
 {
     private NetworkManager networkManager;
+    public static NetworkConnector connector;
 
     [SerializeField] private int isHost;
     [SerializeField] private string hostIP;
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         networkManager = gameObject.GetComponent<MirrorConnection>();
+        connector = gameObject.GetComponent<NetworkConnector>();
         Connect();
     }
 
@@ -33,5 +37,14 @@ public class NetworkConnector : MonoBehaviour
             networkManager.networkAddress = hostIP;
             networkManager.StartClient();
         }
+    }
+
+    /// <summary>
+    /// Close the network connection
+    /// </summary>
+    public void CloseConnection()
+    {
+        Debug.Log("Close connection");
+        networkManager.StopHost();
     }
 }

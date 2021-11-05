@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 using TMPro;
 using Mirror;
 
@@ -16,7 +17,12 @@ public class GameUI : MonoBehaviour
     public GameObject musicSettingMenu;
     public GameObject playGameMenu;
     public GameObject exitNotification;
+    public GameObject waitingNotification;
+    public GameObject readyButton;
+    public GameObject countDown;
+    public GameObject goalText;
     private Dropdown resolutionDropdown;
+    private Toggle fullScreenToggle;
     private Slider mouseSensitiveSlider;
     private Slider musicVolumeSlider;
     private Slider SFXVolumeSlider;
@@ -24,29 +30,34 @@ public class GameUI : MonoBehaviour
     public TMP_Text hostScore;
     public TMP_Text clientScore;
     public TMP_Text playTime;
+    public TMP_Text countDownText;
+    public Scene currentScene;
 
     private int menuID;
     private int[,] resolution = { { 1920, 1080 }, { 1280, 720 }, { 800, 600 } };
 
-    // Start is called before the first frame update
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         menuID = 1;
         gameUI = gameObject.GetComponent<GameUI>();
-        resolutionDropdown = videoSettingMenu.gameObject.transform.Find("ResolutionDropdown").GetComponent<Dropdown>();
-        mouseSensitiveSlider = controlSettingMenu.gameObject.transform.Find("Slider").GetComponent<Slider>();
-        musicVolumeSlider = musicSettingMenu.gameObject.transform.Find("MusicSlider").GetComponent<Slider>();
-        SFXVolumeSlider = musicSettingMenu.gameObject.transform.Find("SFXSlider").GetComponent<Slider>();
-        hostIP = playGameMenu.gameObject.transform.Find("HostIp").GetComponent<TMP_InputField>();
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
+        currentScene = SceneManager.GetActiveScene();
+        if (currentScene.name == "TitleScreen")
+        {
+            fullScreenToggle = videoSettingMenu.gameObject.transform.Find("FullScreenToggle").GetComponent<Toggle>();
+            resolutionDropdown = videoSettingMenu.gameObject.transform.Find("ResolutionDropdown").GetComponent<Dropdown>();
+            mouseSensitiveSlider = controlSettingMenu.gameObject.transform.Find("Slider").GetComponent<Slider>();
+            musicVolumeSlider = musicSettingMenu.gameObject.transform.Find("MusicSlider").GetComponent<Slider>();
+            SFXVolumeSlider = musicSettingMenu.gameObject.transform.Find("SFXSlider").GetComponent<Slider>();
+            hostIP = playGameMenu.gameObject.transform.Find("HostIp").GetComponent<TMP_InputField>();
+            LoadSettingData();
+        }
     }
 
     /// <summary>
-    /// Close game action
+    /// Start the close procedure
     /// </summary>
     public void CloseGame()
     {
@@ -74,7 +85,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call the Exit funtion in GameManager class
+    /// Start the exit procedure
     /// </summary>
     public void Exit()
     {
@@ -92,16 +103,13 @@ public class GameUI : MonoBehaviour
         PlayButtonClickSFX();
     }
 
-    /// <summary>
-    /// Load control setting menu
-    /// </summary>
-    public void LoadControlSettingMenu()
-    {
-        menuID++;
-        settingMenu.SetActive(false);
-        controlSettingMenu.SetActive(true);
-        PlayButtonClickSFX();
-    }
+    //public void LoadControlSettingMenu()
+    //{
+    //    menuID++;
+    //    settingMenu.SetActive(false);
+    //    controlSettingMenu.SetActive(true);
+    //    PlayButtonClickSFX();
+    //}
 
     /// <summary>
     /// Load video setting menu
@@ -126,7 +134,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Load play game menu
+    /// Load choose game mode menu
     /// </summary>
     public void LoadPlayGameMenu()
     {
@@ -154,6 +162,7 @@ public class GameUI : MonoBehaviour
                 settingMenu.SetActive(false);
                 playGameMenu.SetActive(false);
                 titleMenu.SetActive(true);
+                SettingManager.settingManager.SaveSettingData(true);
                 menuID--;
                 break;
             default:
@@ -163,7 +172,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call TongleScreen Mode function in SettingManager class
+    /// Receive player's interacion and start the toggle fullscreen procedure
     /// </summary>
     public void SetScreenMode()
     {
@@ -171,25 +180,22 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call ChangeResolution function in SettingManager class
+    /// Receive player's interacion and start the change resolution procedure
     /// </summary>
     public void SetResolution()
     {
         int index = resolutionDropdown.value;
         Debug.Log("Change resolution to: " + index);
-        SettingManager.settingManager.ChangeResolution(resolution[index, 0], resolution[index, 1]);
+        SettingManager.settingManager.ChangeResolution(index, resolution[index, 0], resolution[index, 1]);
     }
 
-    /// <summary>
-    /// Call ChangeMouseSensitive function in SettingManager class
-    /// </summary>
-    public void SetMouseSensitive()
-    {
-        SettingManager.settingManager.ChangeMouseSensitive(mouseSensitiveSlider.value);
-    }
+    //public void SetMouseSensitive()
+    //{
+    //    SettingManager.settingManager.ChangeMouseSensitive(mouseSensitiveSlider.value);
+    //}
 
     /// <summary>
-    /// Call ChangeMusicVolume function in SettingManager class
+    /// Receive player's interacion and start the change music volume procedure
     /// </summary>
     public void SetMusicVolume()
     {
@@ -197,7 +203,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call ChangeSFXVolume function in SettingManager class
+    /// Receive player's interacion and start the change sfx volume procedure
     /// </summary>
     public void SetSFXVolume()
     {
@@ -207,18 +213,16 @@ public class GameUI : MonoBehaviour
     /// <summary>
     /// Load saved setting data to the UI
     /// </summary>
-    /// <param name="mouseSensitive"> player movement speed when use mouse control </param>
-    /// <param name="backgroundMusic"> the volume of background music played in the game </param>
-    /// <param name="sfx"> the volume of sound effect played in the game </param>
-    public void SetUISliderValue(float mouseSensitive, float backgroundMusic, float sfx)
+    /// <param name="backgroundMusic">The volume of background music played in the game </param>
+    /// <param name="sfx">The volume of sound effect played in the game </param>
+    public void SetUISliderValue(float backgroundMusic, float sfx)
     {
-        mouseSensitiveSlider.value = mouseSensitive;
         musicVolumeSlider.value = backgroundMusic;
         SFXVolumeSlider.value = sfx;
     }
 
     /// <summary>
-    /// Call OpenHost function in GameManager class
+    /// Receive player's interacion and open a new scene as host
     /// </summary>
     public void OpenHost()
     {
@@ -227,7 +231,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call OpenClient function in GameManager class
+    /// Receive player's interacion and open a new scene as client
     /// </summary>
     public void OpenClient()
     {
@@ -238,7 +242,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Call PlayButtonClickSFX functin in SettingManager class
+    /// Call the play sfx procedure when player click a button
     /// </summary>
     private void PlayButtonClickSFX()
     {
@@ -246,7 +250,7 @@ public class GameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Set play score to the UI
+    /// Display the player score to the UI
     /// </summary>
     /// <param name="score">The score to be set</param>
     /// <param name="isHost">Is the score belong to host or client ?</param>
@@ -255,20 +259,38 @@ public class GameUI : MonoBehaviour
         if (isHost)
         {
             hostScore.text = score.ToString();
-        } else
+        }
+        else
         {
             clientScore.text = score.ToString();
         }
     }
 
     /// <summary>
-    /// Display time remaining using mm:ss format
+    /// Display remaining time using mm:ss format
     /// </summary>
-    /// <param name="minute"></param>
-    /// <param name="seconds"></param>
+    /// <param name="minute">Remaining minutes</param>
+    /// <param name="seconds">Remaining seconds</param>
     public void DisplayPlayTime(int minute, int seconds)
     {
-        playTime.text = minute + ":" + seconds;
+        string minuteString, secondsString;
+        if (minute < 10)
+        {
+            minuteString = "0" + minute;
+        }
+        else
+        {
+            minuteString = minute.ToString();
+        }
+        if (seconds < 10)
+        {
+            secondsString = "0" + seconds;
+        }
+        else
+        {
+            secondsString = seconds.ToString();
+        }
+        playTime.text = minuteString + ":" + secondsString;
     }
 
     /// <summary>
@@ -277,6 +299,7 @@ public class GameUI : MonoBehaviour
     public void ShowExitNotification()
     {
         exitNotification.SetActive(true);
+        SettingManager.settingManager.playUISFX();
     }
 
     /// <summary>
@@ -285,6 +308,7 @@ public class GameUI : MonoBehaviour
     public void HideExitNotification()
     {
         exitNotification.SetActive(false);
+        SettingManager.settingManager.playUISFX();
     }
 
     /// <summary>
@@ -292,6 +316,74 @@ public class GameUI : MonoBehaviour
     /// </summary>
     public void ExitGame()
     {
+        SettingManager.settingManager.playUISFX();
         GameManager.gameManager.ReturnToTitleMenu();
+    }
+
+    /// <summary>
+    /// Display and hide waiting notification and ready button
+    /// </summary>
+    /// <param name="isWaiting">True if waiting notification is going to be shown and false if ready button is going to be shown</param>
+    /// <param name="isShown">True if the UI is going to be shown and false if it's going to be hided</param>
+    public void DisplayInWaiting(bool isWaiting, bool isShown)
+    {
+        if (isWaiting)
+        {
+            waitingNotification.SetActive(isShown);
+        }
+        else
+        {
+            readyButton.SetActive(isShown);
+        }
+    }
+
+    /// <summary>
+    /// Display the countdown UI
+    /// </summary>
+    /// <param name="countDownNum">The value that is going to be shown</param>
+    /// <param name="isActive">Is the UI going to be shown or hided ? (true, false)</param>
+    public void DisplayCountDown(int countDownNum, bool isActive)
+    {
+        countDown.SetActive(isActive);
+        if (countDownNum == 0)
+        {
+            countDownText.text = "Ready";
+        }
+        else
+        {
+            countDownText.text = countDownNum.ToString();
+        }
+    }
+
+    /// <summary>
+    /// Start the ready procedure from server
+    /// </summary>
+    public void SetReady()
+    {
+        PlayerController.player.CmdSetReady();
+        readyButton.transform.Find("ReadyButton").GetComponent<Button>().interactable = false;
+    }
+
+    /// <summary>
+    /// Display the goal text when a player get a socre
+    /// </summary>
+    /// <param name="isDisplay">Is the text being shown or hided</param>
+    public void DisplayGoalText(bool isDisplay, string content)
+    {
+        goalText.GetComponent<TextMeshProUGUI>().text = content;
+        goalText.SetActive(isDisplay);
+    }
+
+    /// <summary>
+    /// Load saved setting data to UI
+    /// </summary>
+    private void LoadSettingData()
+    {
+        SettingData setting = SettingManager.settingManager.GetSavedData();
+        fullScreenToggle.isOn = setting.fullScreen;
+        resolutionDropdown.value = setting.resolutionIndex;
+        musicVolumeSlider.value = setting.musicVolume;
+        SFXVolumeSlider.value = setting.SFXVolume;
+        Debug.Log("Update data to UI successfully");
     }
 }

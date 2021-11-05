@@ -8,7 +8,10 @@ public class CameraBehaviour : MonoBehaviour
 
     [SerializeField] float zoom = 1.2f;
     private int isHost;
-    // Start is called before the first frame update
+
+    /// <summary>
+    /// Start is called before the first frame update
+    /// </summary>
     void Start()
     {
         playerCam = GetComponent<Camera>();
@@ -17,12 +20,9 @@ public class CameraBehaviour : MonoBehaviour
         RotateCamera();
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
+    /// <summary>
+    /// Rotate the camera for client gameobject
+    /// </summary>
     private void RotateCamera()
     {
         isHost = PlayerPrefs.GetInt("IsHost");
